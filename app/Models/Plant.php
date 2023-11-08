@@ -16,12 +16,12 @@ class Plant extends Model
 
     public function imgmd()
     {
-        return $this->hasMany(PlantImg::class, 'pid', 'pid')->where('type', 'md');
+        return $this->hasMany(PlantImg::class, 'pid', 'pid')->orderBy('slno')->where('type', 'md');
     }
 
     public function imglg()
     {
-        return $this->hasMany(PlantImg::class, 'pid', 'pid')->where('type', 'lg');
+        return $this->hasMany(PlantImg::class, 'pid', 'pid')->orderBy('slno')->where('type', 'lg');
     }
     public function wishlist()
     {

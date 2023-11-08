@@ -11,7 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class ApiPlantController extends Controller
 {
-    public function data(Request $req)
+    public function product()
+    {
+        $data = Plant::where('category', 'Product')->latest()->with('imglg')->with('wishlist', function ($wishlist) {
+            return $wishlist->where('uid', auth()->user()->id)->get();
+        })->get();
+        return ApiRes::data($data);
+    }
+    public function data()
     {
         $data = Plant::latest()->with('imglg')->with('wishlist', function ($wishlist) {
             return $wishlist->where('uid', auth()->user()->id)->get();

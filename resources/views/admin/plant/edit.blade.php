@@ -146,46 +146,59 @@
                     </div>
                 </div>
             </div>
-            @if (count($data->imgmd) == 1)
+            @if ($data->imglg_count == 1)
                 <div class="col-sm-4 position-relative">
-                    <img src="{{ Hpx::image_src($data->imgmd[0]->image, $dummy_image) }}" id="showBanner1"
+                    <img src="{{ Hpx::image_src($data->imglg[0]->image, $dummy_image) }}" id="showBanner1"
                         class="show-banner img-hover" data-dummy-image="{{ $dummy_image }}">
                     <input accept="image/*" type='file' name="image1" id="inputBanner1" class="invisible" />
                 </div>
-            @else
-                <div class="col-sm-4 position-relative">
-                    <img src="{{ Hpx::image_src('', $dummy_image) }}" id="showBanner1" class="show-banner img-hover"
-                        data-dummy-image="{{ $dummy_image }}">
-                    <input accept="image/*" type='file' name="image1" id="inputBanner1" class="invisible" />
-                </div>
-            @endif
-
-            @if (count($data->imgmd) == 2)
-                <div class="col-sm-4 position-relative">
-                    <img src="{{ Hpx::image_src($data->imgmd[1]->image, $dummy_image) }}" id="showBanner2"
-                        class="show-banner img-hover" data-dummy-image="{{ $dummy_image }}">
-                    <input accept="image/*" type='file' name="image2" id="inputBanner2" class="invisible" />
-                </div>
-            @else
                 <div class="col-sm-4 position-relative">
                     <img src="{{ Hpx::image_src('', $dummy_image) }}" id="showBanner2" class="show-banner img-hover"
                         data-dummy-image="{{ $dummy_image }}">
                     <input accept="image/*" type='file' name="image2" id="inputBanner2" class="invisible" />
                 </div>
-            @endif
-            @if (count($data->imgmd) == 3)
-                <div class="col-sm-4 position-relative">
-                    <img src="{{ Hpx::image_src($data->imgmd[2]->image, $dummy_image) }}" id="showBanner3"
-                        class="show-banner img-hover" data-dummy-image="{{ $dummy_image }}">
-                    <input accept="image/*" type='file' name="image3" id="inputBanner3" class="invisible" />
-                </div>
-            @else
                 <div class="col-sm-4 position-relative">
                     <img src="{{ Hpx::image_src('', $dummy_image) }}" id="showBanner3" class="show-banner img-hover"
                         data-dummy-image="{{ $dummy_image }}">
                     <input accept="image/*" type='file' name="image3" id="inputBanner3" class="invisible" />
                 </div>
+            @elseif($data->imglg_count == 2)
+                <div class="col-sm-4 position-relative">
+                    <img src="{{ Hpx::image_src($data->imglg[0]->image, $dummy_image) }}" id="showBanner1"
+                        class="show-banner img-hover" data-dummy-image="{{ $dummy_image }}">
+                    <input accept="image/*" type='file' name="image1" id="inputBanner1" class="invisible" />
+                </div>
+                <div class="col-sm-4 position-relative">
+                    <img src="{{ Hpx::image_src($data->imglg[1]->image, $dummy_image) }}" id="showBanner2"
+                        class="show-banner img-hover" data-dummy-image="{{ $dummy_image }}">
+                    <input accept="image/*" type='file' name="image2" id="inputBanner2" class="invisible" />
+                </div>
+                <div class="col-sm-4 position-relative">
+                    <img src="{{ Hpx::image_src('', $dummy_image) }}" id="showBanner3" class="show-banner img-hover"
+                        data-dummy-image="{{ $dummy_image }}">
+                    <input accept="image/*" type='file' name="image3" id="inputBanner3" class="invisible" />
+                </div>
+            @elseif($data->imglg_count == 3)
+                <div class="col-sm-4 position-relative">
+                    <img src="{{ Hpx::image_src($data->imglg[0]->image, $dummy_image) }}" id="showBanner1"
+                        class="show-banner img-hover" data-dummy-image="{{ $dummy_image }}">
+                    <input accept="image/*" type='file' name="image1" id="inputBanner1" class="invisible" />
+                </div>
+                <div class="col-sm-4 position-relative">
+                    <img src="{{ Hpx::image_src($data->imglg[1]->image, $dummy_image) }}" id="showBanner2"
+                        class="show-banner img-hover" data-dummy-image="{{ $dummy_image }}">
+                    <input accept="image/*" type='file' name="image2" id="inputBanner2" class="invisible" />
+                </div>
+                <div class="col-sm-4 position-relative">
+                    <img src="{{ Hpx::image_src($data->imglg[2]->image, $dummy_image) }}" id="showBanner3"
+                        class="show-banner img-hover" data-dummy-image="{{ $dummy_image }}">
+                    <input accept="image/*" type='file' name="image3" id="inputBanner3" class="invisible" />
+                </div>
             @endif
+
+
+
+
 
 
 
@@ -272,7 +285,7 @@
 
         $('[name="category"]').on('change', function(e) {
             $('[name="sub_category"]').empty()
-            if ($('[name="category"]').val() == "Fertilizer") {
+            if ($('[name="category"]').val() == "Product") {
                 $('#unit-set').show();
             } else {
                 $('#unit-set').hide();

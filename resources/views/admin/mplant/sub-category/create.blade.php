@@ -36,7 +36,7 @@
 
             <div class="col-md-8">
 
-                <div class="col-12">
+                <div class="col-md-12">
                     <label for="" class="form-label">Category</label>
                     <select class="form-select" name="category">
                         <option value="">Select</option>
@@ -56,14 +56,19 @@
                         <span class="text-danger">* {{ $message }}</span>
                     @enderror
                 </div>
-                <div class="col-12">
+                {{-- <div class="col-12">
                     <label class="form-label">Description</label>
                     <textarea class="form-control" name="description"></textarea>
                     @error('description')
                         <span class="text-danger">* {{ $message }}</span>
                     @enderror
-                </div>
+                </div> --}}
                 <div class="col-12">
+                    <label for="" class="form-label">Description</label>
+                    <textarea class="form-control" id="html_content" name="description" hidden></textarea>
+
+                </div>
+                <div class="col-md-6">
                     <label for="" class="form-label">Status</label>
                     <select id="" class="form-select" name="status">
                         <option value="1" selected>Active</option>
@@ -96,6 +101,7 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
+            Laraberg.init('html_content');
             image_edit('#showBanner');
             $('.alert').alert();
             setTimeout(() => {

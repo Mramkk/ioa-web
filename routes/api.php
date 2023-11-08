@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Plants as products
     Route::controller(ApiPlantController::class)->group(function () {
         Route::get('/mproduct', 'data');
+        Route::get('/mproduct/product', 'product');
         Route::get('/mproduct/category', 'category');
         Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');
         // Route::get('/fertilizer/by/category', 'fertilizerCate');

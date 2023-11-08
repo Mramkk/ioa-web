@@ -62,12 +62,17 @@
                         <span class="text-danger">* {{ $message }}</span>
                     @enderror
                 </div>
-                <div class="col-12">
+                {{-- <div class="col-12">
                     <label class="form-label">Description</label>
                     <textarea class="form-control" name="description">{{ $data->description }}</textarea>
                     @error('description')
                         <span class="text-danger">* {{ $message }}</span>
                     @enderror
+                </div> --}}
+                <div class="col-12">
+                    <label for="" class="form-label">Description</label>
+                    <textarea class="form-control" id="html_content" name="description" hidden>{{ $data->description }}</textarea>
+
                 </div>
                 <div class="col-12">
                     <label for="" class="form-label">Status</label>
@@ -103,6 +108,7 @@
 @section('script')
     <script>
         $(document).ready(function() {
+            Laraberg.init('html_content');
             image_edit('#showBanner');
             $('.alert').alert();
             setTimeout(() => {

@@ -154,7 +154,7 @@ class AdminPlantController extends Controller
     }
     public function edit(Request $req)
     {
-        $data = Plant::Where('id', $req->id)->with('imgmd')->first();
+        $data = Plant::Where('id', $req->id)->withCount('imglg')->with('imglg')->first();
         $categories = Category::all();
         $subCat = SubCategory::all();
         if (!empty($data)) {
@@ -165,6 +165,7 @@ class AdminPlantController extends Controller
     }
     public function update(Request $req)
     {
+
         $req->validate([
             'title' => 'required|string|max:225',
             'short_description' => 'required|string|max:225',
@@ -287,7 +288,7 @@ class AdminPlantController extends Controller
                 $status =  $img->save();
 
                 $picName =  uniqid() . ".webp";
-                Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
+                Image::make($req->image3->getRealPath())->resize('640', '480')->save($path . $picName);
                 $img = new PlantImg();
                 $img->pid = $plant->pid;
                 $img->slno = '3';
