@@ -17,7 +17,7 @@ use App\Http\Controllers\Web\Test\TestController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// web 
 
 Route::prefix('/')->controller(Master_WebController::class)->group(function () {
 
