@@ -7,17 +7,8 @@ use App\Http\Controllers\Api\Address_ApiController;
 use App\Http\Controllers\Web\Auth_WebController;
 use App\Http\Controllers\Web\Test\TestController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-// web 
+
+
 
 Route::prefix('/')->controller(Master_WebController::class)->group(function () {
 
