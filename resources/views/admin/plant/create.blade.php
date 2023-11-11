@@ -38,6 +38,7 @@
 
             <div class="col-md-12">
                 <div class="row">
+
                     <div class="col-12">
                         <label for="" class="form-label">Title</label>
                         <input type="text" class="form-control" name="title">
@@ -133,15 +134,25 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <label for="" class="form-label">Status</label>
                         <select class="form-select" name="status">
                             <option value="1" selected>Active</option>
                             <option value="0">Deactive</option>
                         </select>
                     </div>
+                    <div id="vselcom" class="col-md-8">
+                        <label for="" class="form-label">Recommended Fertilizer</label>
+                        <select id="vselect" multiple name="recommended_fertilizer" placeholder="Select"
+                            data-search="false" data-silent-initial-value-set="true">
+
+                        </select>
+                    </div>
+
                 </div>
             </div>
+
+
 
             <div class="col-sm-4 position-relative">
                 <button type="button" class="btn btn-sm btn-danger del_icon_btn" onclick="remove_image('#showBanner1')">
@@ -190,15 +201,19 @@
 
 
 @section('script')
+
     <script>
         let api = new ApiService();
         $(document).ready(function() {
             $('#unit-set').hide();
+            $('#vselcom').hide();
             $('.alert').alert();
             setTimeout(() => {
                 $('.alert').alert('close')
             }, 5000)
             Laraberg.init('html_content');
+
+
 
 
             $('[name="regular_price"]').on('input', function(e) {
@@ -286,10 +301,12 @@
         }
         $('[name="category"]').on('change', function(e) {
             $('[name="sub_category"]').empty()
-            if ($('[name="category"]').val() == "Fertilizer") {
+            if ($('[name="category"]').val() == "Product") {
                 $('#unit-set').show();
             } else {
                 $('#unit-set').hide();
+
+                loadSelect();
             }
             let req = api.getData("{{ url('admin/sub-category') }}" + "/" + this.value);
             req.then((res) => {
@@ -303,6 +320,24 @@
                 }
             });
         });
+
+        function loadSelect() {
+            $('#vselcom').show();
+            VirtualSelect.init({
+                ele: '#vselect',
+            });
+            let req = api.getData("{{ url('admin/plant/product') }}");
+            req.then((res) => {
+                if (res.status == true) {
+                    res.data.forEach(element => {
+                        document.querySelector('#vselect').addOption({
+                            value: element.id,
+                            label: element.title,
+                        });
+                    });
+                }
+            });
+        }
     </script>
 @endsection
 

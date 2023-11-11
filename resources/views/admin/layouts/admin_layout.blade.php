@@ -28,6 +28,7 @@
     <!-- =========== Custom Style CSS ========= -->
     <link rel="stylesheet" href="{{ asset('/assets/admin/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/admin/css/toaster.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/virtual-select.min.css') }}">
 
     @yield('style')
 
@@ -42,6 +43,8 @@
 
     <!-- End Html Editor -->
     <script src="{{ asset('/assets/admin/js/toaster.js') }}"></script>
+
+
     <script>
         toastr.options.closeButton = true;
         toastr.options.progressBar = true;
@@ -227,6 +230,7 @@
     <script src="{{ asset('/assets/admin/js/classes.js') }}"></script>
     <script src="{{ asset('/assets/admin/js/main.js') }}"></script>
     <script src="{{ asset('/assets/admin/js/toaster.js') }}"></script>
+    <script src="{{ asset('/assets/js/virtual-select.min.js') }}"></script>
 
     <script>
         var Notify = document.getElementById("myAudio");

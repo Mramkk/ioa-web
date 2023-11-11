@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Mplant\ApiSeasonWiseController;
 use App\Http\Controllers\Api\Order\ApiOrderController;
 use App\Http\Controllers\Api\Order_ApiController;
 use App\Http\Controllers\Api\Plant\ApiPlantController;
+use App\Http\Controllers\Api\Product\ApiProductController;
 use App\Http\Controllers\Api\Product_ApiController;
 use App\Http\Controllers\Api\Razorpay\ApiRazorpayController;
 use App\Http\Controllers\Api\Slider\ApiMainSliderController;
@@ -58,12 +59,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('setdata', Mix_ApiController::class);
 
     // Plants as products
+    // Route::controller(ApiProductController::class)->group(function () {
+    //     Route::get('/mproduct', 'data');
+    //     Route::get('/mproduct/id', 'byId');
+    //     Route::get('/mproduct/subcategory/plant', 'plantSubcategory');
+    //     // Route::get('/mproduct/product', 'product');
+    //     // Route::get('/mproduct/category', 'category');
+    //     // Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');
+    //     // Route::get('/fertilizer/by/category', 'fertilizerCate');
+    // });
     Route::controller(ApiPlantController::class)->group(function () {
         Route::get('/mproduct', 'data');
         Route::get('/mproduct/product', 'product');
         Route::get('/mproduct/category', 'category');
         Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');
-        // Route::get('/fertilizer/by/category', 'fertilizerCate');
+        Route::get('/fertilizer/by/category', 'fertilizerCate');
     });
     // MPlants as Plants
     Route::controller(ApiMplantController::class)->group(function () {

@@ -137,11 +137,27 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <label for="" class="form-label">Status</label>
                         <select id="" class="form-select" name="status">
                             <option value="1" {{ $data->status == 1 ? 'selected' : '' }}>Active</option>
                             <option value="0" {{ $data->status == 0 ? 'selected' : '' }}>Deactive</option>
+                        </select>
+                    </div>
+                    <div id="vselcom" class="col-md-8">
+                        <label for="" class="form-label">Recommended Fertilizer</label>
+                        <select id="vselect" multiple name="recommended_fertilizer" placeholder="Select"
+                            data-search="false" data-silent-initial-value-set="true">
+                            @foreach ($fertilizers as $item)
+                                @foreach ($rfs as $rf)
+                                    @if ($item->id == $rf->fertilizer_id)
+                                        <option value="{{ $item->id }}" selected>{{ $item->title }}</option>
+                                    @else
+                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                    @endif
+                                @endforeach
+                            @endforeach
+
                         </select>
                     </div>
                 </div>
@@ -222,11 +238,23 @@
         let api = new ApiService();
         $(document).ready(function() {
             Laraberg.init('html_content');
+            $('#vselcom').hide();
             $('#unit-set').hide();
             $('.alert').alert();
             setTimeout(() => {
                 $('.alert').alert('close')
             }, 2000)
+
+
+
+            if ($('[name="category"]').val() == "Plant") {
+                $('#vselcom').show();
+                VirtualSelect.init({
+                    ele: '#vselect',
+                });
+            } else {
+                $('#vselcom').hide();
+            }
 
 
             $('input[name="regular_price"]').on('input', function(e) {
@@ -287,6 +315,7 @@
             $('[name="sub_category"]').empty()
             if ($('[name="category"]').val() == "Product") {
                 $('#unit-set').show();
+                $('#vselcom').hide();
             } else {
                 $('#unit-set').hide();
             }
@@ -302,5 +331,23 @@
                 }
             });
         });
+
+        function loadSelect() {
+            $('#vselcom').show();
+            VirtualSelect.init({
+                ele: '#vselect',
+            });
+            let req = api.getData("{{ url('admin/plant/product') }}");
+            req.then((res) => {
+                if (res.status == true) {
+                    res.data.forEach(element => {
+                        document.querySelector('#vselect').addOption({
+                            value: element.id,
+                            label: element.title,
+                        });
+                    });
+                }
+            });
+        }
     </script>
 @endsection

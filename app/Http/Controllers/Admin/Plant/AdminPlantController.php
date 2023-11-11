@@ -7,15 +7,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Plant;
 use App\Models\PlantImg;
+use App\Models\RecommendedFertilizer;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 
-
 class AdminPlantController extends Controller
 {
+    public function product()
+    {
+        $data =  Plant::where('category', 'Product')->get(['id', 'title']);
+        return ApiRes::data($data);
+    }
     public function index(Request $request)
     {
         $data_list = '';
@@ -38,6 +43,7 @@ class AdminPlantController extends Controller
     }
     public function save(Request $req)
     {
+        return $req->all();
 
         $req->validate([
             'title' => 'required|string|max:225',
@@ -154,18 +160,19 @@ class AdminPlantController extends Controller
     }
     public function edit(Request $req)
     {
+        $rfs = RecommendedFertilizer::where('pid', $req->id)->get(['fertilizer_id']);
+        $fertilizers = Plant::where('category', 'Product')->get(['id', 'title']);
         $data = Plant::Where('id', $req->id)->withCount('imglg')->with('imglg')->first();
         $categories = Category::all();
         $subCat = SubCategory::all();
         if (!empty($data)) {
-            return view('admin.plant.edit', compact('data', 'categories', 'subCat'));
+            return view('admin.plant.edit', compact('data', 'categories', 'subCat', 'fertilizers', 'rfs'));
         } else {
             return abort('403', 'Id Not Found');
         }
     }
     public function update(Request $req)
     {
-
         $req->validate([
             'title' => 'required|string|max:225',
             'short_description' => 'required|string|max:225',
@@ -176,12 +183,16 @@ class AdminPlantController extends Controller
             'rating' => 'digits_between:1,5',
 
         ]);
-        if ($req->category == "Fertilizer") {
+        if ($req->category == "Product") {
             $req->validate([
                 'unit' => 'required|string|max:225',
                 'weight' => 'required|numeric|min:1',
             ]);
         }
+
+
+
+
         $plant =  Plant::Where('id', $req->id)->first();
         $plant->title = $req->title;
         $plant->slug = Str::slug($req->title);
@@ -198,109 +209,134 @@ class AdminPlantController extends Controller
         $plant->status = $req->status;
         $status =  $plant->update();
 
+
+        $path = 'public/img/plants/';
+        if ($req->hasFile('image1')) {
+            $req->validate([
+                'image1' => 'required|image|mimes:jpeg,jpg,png',
+            ]);
+            $picName =  uniqid() . ".webp";
+            $img = PlantImg::where('pid', $plant->pid)->where('slno', '1')->where('type', 'md')->first();
+            if ($img != null) {
+                unlink($img->image);
+                $status =  $img->delete();
+            }
+            $img = PlantImg::where('pid', $plant->pid)->where('slno', '1')->where('type', 'lg')->first();
+            if ($img != null) {
+                unlink($img->image);
+                $status =  $img->delete();
+            }
+            Image::make($req->image1->getRealPath())->resize('480', '360')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $plant->pid;
+            $img->slno = '1';
+            $img->type = "md";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image1->getRealPath())->resize('640', '480')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $plant->pid;
+            $img->slno = '1';
+            $img->type = "lg";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+        }
+        if ($req->hasFile('image2')) {
+            $req->validate([
+                'image2' => 'required|image|mimes:jpeg,jpg,png',
+            ]);
+            $img = PlantImg::where('pid', $plant->pid)->where('slno', '2')->where('type', 'md')->first();
+            if ($img != null) {
+                unlink($img->image);
+                $status =  $img->delete();
+            }
+            $img = PlantImg::where('pid', $plant->pid)->where('slno', '2')->where('type', 'lg')->first();
+            if ($img != null) {
+                unlink($img->image);
+                $status =  $img->delete();
+            }
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image2->getRealPath())->resize('480', '360')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $plant->pid;
+            $img->slno = '2';
+            $img->type = "md";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $plant->pid;
+            $img->slno = '2';
+            $img->type = "lg";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+        }
+        if ($req->hasFile('image3')) {
+            $req->validate([
+                'image3' => 'required|image|mimes:jpeg,jpg,png',
+            ]);
+            $img = PlantImg::where('pid', $plant->pid)->where('slno', '3')->where('type', 'md')->first();
+            if ($img != null) {
+                unlink($img->image);
+                $status =  $img->delete();
+            }
+            $img = PlantImg::where('pid', $plant->pid)->where('slno', '3')->where('type', 'lg')->first();
+            if ($img != null) {
+                unlink($img->image);
+                $status =  $img->delete();
+            }
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image3->getRealPath())->resize('480', '360')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $plant->pid;
+            $img->slno = '3';
+            $img->type = "md";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image3->getRealPath())->resize('640', '480')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $plant->pid;
+            $img->slno = '3';
+            $img->type = "lg";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+        }
+
+        if ($req->recommended_fertilizer != null) {
+            $req->validate([
+                'recommended_fertilizer' => 'required|string|max:225',
+            ]);
+        }
+
+        $status =  RecommendedFertilizer::where('pid', $req->id)->delete();
+        $fertilizer = explode(",", $req->recommended_fertilizer);
+        if (count($fertilizer) > 1) {
+            foreach ($fertilizer as $item) {
+                $rf = new RecommendedFertilizer();
+                $rf->pid = $req->id;
+                $rf->fertilizer_id = $item;
+                $status = $rf->save();
+            }
+
+            // return $fertilizer;
+        } else {
+            // return $fertilizer[0];
+            $rf = new RecommendedFertilizer();
+            $rf->pid = $req->id;
+            $rf->fertilizer_id = $req->recommended_fertilizer;
+            $status = $rf->save();
+        }
+
+
+
         if ($status) {
-            $path = 'public/img/plants/';
-            if ($req->hasFile('image1')) {
-                $req->validate([
-                    'image1' => 'required|image|mimes:jpeg,jpg,png',
-                ]);
-                $picName =  uniqid() . ".webp";
-                $img = PlantImg::where('pid', $plant->pid)->where('slno', '1')->where('type', 'md')->first();
-                if ($img != null) {
-                    unlink($img->image);
-                    $status =  $img->delete();
-                }
-                $img = PlantImg::where('pid', $plant->pid)->where('slno', '1')->where('type', 'lg')->first();
-                if ($img != null) {
-                    unlink($img->image);
-                    $status =  $img->delete();
-                }
-                Image::make($req->image1->getRealPath())->resize('480', '360')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $plant->pid;
-                $img->slno = '1';
-                $img->type = "md";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image1->getRealPath())->resize('640', '480')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $plant->pid;
-                $img->slno = '1';
-                $img->type = "lg";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-            }
-            if ($req->hasFile('image2')) {
-                $req->validate([
-                    'image2' => 'required|image|mimes:jpeg,jpg,png',
-                ]);
-                $img = PlantImg::where('pid', $plant->pid)->where('slno', '2')->where('type', 'md')->first();
-                if ($img != null) {
-                    unlink($img->image);
-                    $status =  $img->delete();
-                }
-                $img = PlantImg::where('pid', $plant->pid)->where('slno', '2')->where('type', 'lg')->first();
-                if ($img != null) {
-                    unlink($img->image);
-                    $status =  $img->delete();
-                }
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image2->getRealPath())->resize('480', '360')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $plant->pid;
-                $img->slno = '2';
-                $img->type = "md";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $plant->pid;
-                $img->slno = '2';
-                $img->type = "lg";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-            }
-            if ($req->hasFile('image3')) {
-                $req->validate([
-                    'image3' => 'required|image|mimes:jpeg,jpg,png',
-                ]);
-                $img = PlantImg::where('pid', $plant->pid)->where('slno', '3')->where('type', 'md')->first();
-                if ($img != null) {
-                    unlink($img->image);
-                    $status =  $img->delete();
-                }
-                $img = PlantImg::where('pid', $plant->pid)->where('slno', '3')->where('type', 'lg')->first();
-                if ($img != null) {
-                    unlink($img->image);
-                    $status =  $img->delete();
-                }
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image3->getRealPath())->resize('480', '360')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $plant->pid;
-                $img->slno = '3';
-                $img->type = "md";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image3->getRealPath())->resize('640', '480')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $plant->pid;
-                $img->slno = '3';
-                $img->type = "lg";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-            }
-            if ($status) {
-                return redirect()->back()->with('success', 'Data updated successfully !');
-            } else {
-                return redirect()->back()->with('error', 'Error, try again later.');
-            }
+            return redirect()->back()->with('success', 'Data updated successfully !');
         } else {
             return redirect()->back()->with('error', 'Error, try again later.');
         }
