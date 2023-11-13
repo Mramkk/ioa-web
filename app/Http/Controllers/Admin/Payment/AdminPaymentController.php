@@ -15,6 +15,15 @@ class AdminPaymentController extends Controller
     }
 
     public function mpayments(Request $req) {
-        return view('admin.payment.mpayments');
+        if ($req->q == null && $req->date == null) {
+            $datalist = Mpayment::latest()->paginate(10);
+            return view('admin.payment.mpayments', compact('datalist'));
+        } elseif ($req->q != null) {
+            $datalist = Mpayment::orwhere('order_id', 'LIKE', '%' . $req->q . '%')->orwhere('payment_id', 'LIKE', '%' . $req->q . '%')->paginate(10);
+            return view('admin.payment.mpayments', compact('datalist'));
+        } elseif ($req->date != null) {
+            $datalist = Mpayment::whereDate('created_at', '=', date($req->date))->paginate(10);
+            return view('admin.payment.mpayments', compact('datalist'));
+        }
     }
 }

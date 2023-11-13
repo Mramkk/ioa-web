@@ -291,7 +291,7 @@
                 <a class="widget__categories--sub__menu--link d-flex align-items-center"
                     href="{{route('admin.payment.mpayments')}}">
                     <i class="icofont-pay menu-icon2"></i>
-                    <span class="widget__categories--sub__menu--text">Payment Details</span>
+                    <span class="widget__categories--sub__menu--text">Payments List</span>
                 </a>
             </li>
 
