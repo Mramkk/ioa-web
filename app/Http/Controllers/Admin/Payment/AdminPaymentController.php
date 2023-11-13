@@ -13,4 +13,8 @@ class AdminPaymentController extends Controller
         $datalist =  Mpayment::where('payment_id', $req->id)->first();
         return view('admin.payment.index', compact('datalist'));
     }
+
+    public function mpayments(Request $req) {
+        return view('admin.payment.mpayments');
+    }
 }
