@@ -7,13 +7,7 @@
 
     <div class="admin-container">
 
-        
-
         <h3>payments list</h3>
     </div>
 
-
-
-
 @endsection
-

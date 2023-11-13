@@ -2,9 +2,9 @@
     <div class="row bg__gray--color py-4 pb-3 rounded mx-0 mb-4">
         <div class="col-5">
             <h2 class="fs-2">
-                <!-- {!! !empty(url()->previous()) != url()->current()
+                {{-- {!! !empty(url()->previous()) != url()->current()
                     ? '<a href="" class="btn btn-primary fs-1 me-2" style="padding: 0px 6px;"><i class="icofont-arrow-left"></i></a>'
-                    : null !!}  -->
+                    : null !!}  --}}
                 {{ $tbx['title'] ?? null }}
             </h2>
         </div>
@@ -35,7 +35,6 @@
                             <i class="icofont-search"></i>
                         </button>
                     </div>
-
                 </form>
             @endif
         </div>
