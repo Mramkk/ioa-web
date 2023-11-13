@@ -59,22 +59,22 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('setdata', Mix_ApiController::class);
 
     // Plants as products
-    // Route::controller(ApiProductController::class)->group(function () {
-    //     Route::get('/mproduct', 'data');
-    //     Route::get('/mproduct/id', 'byId');
-    //     Route::get('/mproduct/subcategory/plant', 'plantSubcategory');
-    //     // Route::get('/mproduct/product', 'product');
-    //     // Route::get('/mproduct/category', 'category');
-    //     // Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');
-    //     // Route::get('/fertilizer/by/category', 'fertilizerCate');
-    // });
-    Route::controller(ApiPlantController::class)->group(function () {
+    Route::controller(ApiProductController::class)->group(function () {
         Route::get('/mproduct', 'data');
-        Route::get('/mproduct/product', 'product');
-        Route::get('/mproduct/category', 'category');
-        Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');
-        Route::get('/fertilizer/by/category', 'fertilizerCate');
+        Route::get('/mproduct/id', 'byId');
+        Route::get('/mproduct/plant/subcategory', 'plantSubcategory');
+        // Route::get('/mproduct/product', 'product');
+        // Route::get('/mproduct/category', 'category');
+        // Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');
+        // Route::get('/fertilizer/by/category', 'fertilizerCate');
     });
+    // Route::controller(ApiPlantController::class)->group(function () {
+    //     Route::get('/mproduct', 'data');
+    //     Route::get('/mproduct/product', 'product');
+    //     Route::get('/mproduct/category', 'category');
+    //     Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');
+    //     Route::get('/fertilizer/by/category', 'fertilizerCate');
+    // });
     // MPlants as Plants
     Route::controller(ApiMplantController::class)->group(function () {
         Route::get('/plant', 'data');

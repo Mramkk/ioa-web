@@ -23,6 +23,15 @@ class Plant extends Model
     {
         return $this->hasMany(PlantImg::class, 'pid', 'pid')->orderBy('slno')->where('type', 'lg');
     }
+    public function recommended()
+    {
+        return $this->hasMany(RecommendedFertilizer::class, 'pid', 'id');
+    }
+    function child()
+    {
+        return $this
+            ->hasMany(Plant::class, 'id', 'id');
+    }
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class, 'pid', 'pid');

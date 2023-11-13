@@ -22,7 +22,7 @@ class ApiPlantController extends Controller
     {
         $data = Plant::latest()->with('imglg')->with('wishlist', function ($wishlist) {
             return $wishlist->where('uid', auth()->user()->id)->get();
-        })->get();
+        })->with('recommended')->get();
         return ApiRes::data($data);
     }
     public function category(Request $req)

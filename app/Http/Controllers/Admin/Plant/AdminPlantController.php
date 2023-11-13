@@ -16,10 +16,17 @@ use Intervention\Image\Facades\Image;
 
 class AdminPlantController extends Controller
 {
-    public function product()
+    public function selFertilizer()
     {
-        $data =  Plant::where('category', 'Product')->get(['id', 'title']);
-        return ApiRes::data($data);
+        $data1 =  Plant::where('category', 'Product')->get(['pid', 'title']);
+        $data2 = RecommendedFertilizer::all(['fertilizer_id']);
+        return ApiRes::doubleData($data1, $data2);
+    }
+    public function selUpdateFertilizer(Request $req)
+    {
+        $data1 =  Plant::where('category', 'Product')->get(['pid', 'title']);
+        $data2 = RecommendedFertilizer::where('pid', $req->id)->get(['fertilizer_id']);
+        return ApiRes::doubleData($data1, $data2);
     }
     public function index(Request $request)
     {
@@ -43,7 +50,7 @@ class AdminPlantController extends Controller
     }
     public function save(Request $req)
     {
-        return $req->all();
+        // return $req->all();
 
         $req->validate([
             'title' => 'required|string|max:225',
@@ -80,88 +87,116 @@ class AdminPlantController extends Controller
         $plant->status = $req->status;
         $status =  $plant->save();
 
+
+        $path = 'public/img/plants/';
+        if ($req->hasFile('image1')) {
+            $req->validate([
+                'image1' => 'required|image|mimes:jpeg,jpg,png',
+            ]);
+            $picName =  uniqid() . ".webp";
+
+            Image::make($req->image1->getRealPath())->resize('480', '360')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $pid;
+            $img->slno = '1';
+            $img->type = "md";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image1->getRealPath())->resize('640', '480')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $pid;
+            $img->slno = '1';
+            $img->type = "lg";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+        }
+        if ($req->hasFile('image2')) {
+            $req->validate([
+                'image2' => 'required|image|mimes:jpeg,jpg,png',
+            ]);
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image2->getRealPath())->resize('480', '360')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $pid;
+            $img->slno = '2';
+            $img->type = "md";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $pid;
+            $img->slno = '2';
+            $img->type = "lg";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+        }
+        if ($req->hasFile('image3')) {
+            $req->validate([
+                'image3' => 'required|image|mimes:jpeg,jpg,png',
+            ]);
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image3->getRealPath())->resize('480', '360')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $pid;
+            $img->slno = '3';
+            $img->type = "md";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+
+            $picName =  uniqid() . ".webp";
+            Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
+            $img = new PlantImg();
+            $img->pid = $pid;
+            $img->slno = '3';
+            $img->type = "lg";
+            $img->image = $path . $picName;
+            $status =  $img->save();
+        }
+
+        if ($req->recommended_fertilizer != null) {
+            $req->validate([
+                'recommended_fertilizer' => 'required|string|max:225',
+            ]);
+        }
+
+        $fertilizer = explode(",", $req->recommended_fertilizer);
+        if (count($fertilizer) > 1) {
+            foreach ($fertilizer as $item) {
+                $rf = new RecommendedFertilizer();
+                $rf->pid = Plant::max('id');
+                $rf->fertilizer_id = $item;
+                $status = $rf->save();
+            }
+
+            // return $fertilizer;
+        } else {
+            // return $fertilizer[0];
+            $rf = new RecommendedFertilizer();
+            $rf->pid = Plant::max('id');
+            $rf->fertilizer_id = $req->recommended_fertilizer;
+            $status = $rf->save();
+        }
+
+
+
         if ($status) {
-            $path = 'public/img/plants/';
-            if ($req->hasFile('image1')) {
-                $req->validate([
-                    'image1' => 'required|image|mimes:jpeg,jpg,png',
-                ]);
-                $picName =  uniqid() . ".webp";
-
-                Image::make($req->image1->getRealPath())->resize('480', '360')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $pid;
-                $img->slno = '1';
-                $img->type = "md";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image1->getRealPath())->resize('640', '480')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $pid;
-                $img->slno = '1';
-                $img->type = "lg";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-            }
-            if ($req->hasFile('image2')) {
-                $req->validate([
-                    'image2' => 'required|image|mimes:jpeg,jpg,png',
-                ]);
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image2->getRealPath())->resize('480', '360')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $pid;
-                $img->slno = '2';
-                $img->type = "md";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $pid;
-                $img->slno = '2';
-                $img->type = "lg";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-            }
-            if ($req->hasFile('image3')) {
-                $req->validate([
-                    'image3' => 'required|image|mimes:jpeg,jpg,png',
-                ]);
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image3->getRealPath())->resize('480', '360')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $pid;
-                $img->slno = '3';
-                $img->type = "md";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-
-                $picName =  uniqid() . ".webp";
-                Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
-                $img = new PlantImg();
-                $img->pid = $pid;
-                $img->slno = '3';
-                $img->type = "lg";
-                $img->image = $path . $picName;
-                $status =  $img->save();
-            }
-            if ($status) {
-                return redirect()->back()->with('success', 'Data saved successfully !');
-            } else {
-                return redirect()->back()->with('error', 'Error, try again later.');
-            }
+            return redirect()->back()->with('success', 'Data saved successfully !');
         } else {
             return redirect()->back()->with('error', 'Error, try again later.');
         }
     }
     public function edit(Request $req)
     {
-        $rfs = RecommendedFertilizer::where('pid', $req->id)->get(['fertilizer_id']);
-        $fertilizers = Plant::where('category', 'Product')->get(['id', 'title']);
+        $cat =  Plant::Where('id', $req->id)->first()->category;
+        if ($cat == "Plant") {
+            $rfs = RecommendedFertilizer::where('pid', $req->id)->get(['fertilizer_id']);
+            $fertilizers = Plant::where('category', 'Product')->get(['id', 'title']);
+        }
+
         $data = Plant::Where('id', $req->id)->withCount('imglg')->with('imglg')->first();
         $categories = Category::all();
         $subCat = SubCategory::all();
@@ -173,6 +208,8 @@ class AdminPlantController extends Controller
     }
     public function update(Request $req)
     {
+
+
         $req->validate([
             'title' => 'required|string|max:225',
             'short_description' => 'required|string|max:225',

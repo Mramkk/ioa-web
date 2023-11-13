@@ -8,9 +8,7 @@
             $tbx['title'] = 'Edit Product';
             $route_name = 'product';
             $dummy_image = asset('assets/img/other/select-image.jpg');
-            // $exist_image1 = $data->imgmd[0]->image;
-            // $exist_image2 = $data->imgmd[1]->image;
-            // $exist_image3 = $data->imgmd[2]->image;
+
         @endphp
         @include('admin.includes.title-bar')
 
@@ -148,15 +146,8 @@
                         <label for="" class="form-label">Recommended Fertilizer</label>
                         <select id="vselect" multiple name="recommended_fertilizer" placeholder="Select"
                             data-search="false" data-silent-initial-value-set="true">
-                            @foreach ($fertilizers as $item)
-                                @foreach ($rfs as $rf)
-                                    @if ($item->id == $rf->fertilizer_id)
-                                        <option value="{{ $item->id }}" selected>{{ $item->title }}</option>
-                                    @else
-                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
-                                    @endif
-                                @endforeach
-                            @endforeach
+
+
 
                         </select>
                     </div>
@@ -248,10 +239,12 @@
 
 
             if ($('[name="category"]').val() == "Plant") {
+                // alert($('[name="id"]').val())
                 $('#vselcom').show();
-                VirtualSelect.init({
-                    ele: '#vselect',
-                });
+                // VirtualSelect.init({
+                //     ele: '#vselect',
+                // });
+                loadSelect()
             } else {
                 $('#vselcom').hide();
             }
@@ -332,22 +325,33 @@
             });
         });
 
+
         function loadSelect() {
             $('#vselcom').show();
             VirtualSelect.init({
                 ele: '#vselect',
+
             });
-            let req = api.getData("{{ url('admin/plant/product') }}");
+            let req = api.getData("{{ url('admin/plant/selected/fertilizer/') }}" + "/" + "{{ $data->id }}");
             req.then((res) => {
                 if (res.status == true) {
-                    res.data.forEach(element => {
+                    console.log(res.data2);
+                    res.data1.forEach(element => {
                         document.querySelector('#vselect').addOption({
-                            value: element.id,
+                            value: element.pid,
                             label: element.title,
+
                         });
                     });
+                    const selectedValues = [];
+                    res.data2.forEach(element => {
+                        selectedValues.push(element.fertilizer_id);
+
+                    });
+                    document.querySelector('#vselect').setValue(selectedValues);
                 }
             });
+
         }
     </script>
 @endsection

@@ -326,12 +326,12 @@
             VirtualSelect.init({
                 ele: '#vselect',
             });
-            let req = api.getData("{{ url('admin/plant/product') }}");
+            let req = api.getData("{{ url('admin/plant/select/fertilizer') }}");
             req.then((res) => {
                 if (res.status == true) {
-                    res.data.forEach(element => {
+                    res.data1.forEach(element => {
                         document.querySelector('#vselect').addOption({
-                            value: element.id,
+                            value: element.pid,
                             label: element.title,
                         });
                     });

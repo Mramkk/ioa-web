@@ -87,7 +87,8 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
         Route::post('/plant/save', 'save')->name('admin.plant.save');
         Route::post('/plant/status', 'status')->name('admin.plant.status');
         Route::post('/plant/delete', 'delete')->name('admin.plant.delete');
-        Route::get('/plant/product', 'product');
+        Route::get('/plant/select/fertilizer', 'selFertilizer');
+        Route::get('/plant/selected/fertilizer/{id}', 'selUpdateFertilizer');
     });
 
     Route::controller(AdminSubCategoryController::class)->group(function () {

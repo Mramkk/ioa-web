@@ -50,6 +50,15 @@ class ApiRes
             return response()->json(["status" => true, "message" => "Data not found.", "data" => $data]);
         }
     }
+    public static function doubleData($data1, $data2)
+    {
+        return response()->json(["status" => true, "message" => "Datalist", "data1" => $data1, "data2" => $data2]);
+        // if (is_countable($data) && count($data) > 0) {
+        //     return response()->json(["status" => true, "message" => "Datalist", "data" => $data]);
+        // } else {
+        //     return response()->json(["status" => true, "message" => "Data not found.", "data" => $data]);
+        // }
+    }
     public static function mapData($data)
     {
         return response()->json(["status" => true, "message" => "Datalist", "data" => $data]);
