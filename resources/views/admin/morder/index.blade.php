@@ -20,7 +20,7 @@
 
         <div class="cart__table">
             <table class="cart__table--inner">
-                {!! Hpx::table_headings(['Order', 'Payment Id', 'Total Amt', 'status']) !!}
+                {!! Hpx::table_headings(['Order', 'Payment Id', 'Total Amt', 'status', 'Action']) !!}
                 <tbody class="cart__table--body" id="slider-list">
                     @foreach ($datalist as $data)
                         <tr class="cart__table--body__items">
@@ -56,10 +56,10 @@
                                 <span class="blink">
                                     {{ Str::upper($data->status) }}
                                 </span>
-
-
                             </td>
-
+                            <td class="cart__table--body__list ">
+                                    {!! Hpx::view_btn(url('admin/morder') . '/' . $data->orderid) !!} 
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -20,7 +20,7 @@ class AdminOrderController extends Controller
             $datalist = Morder::orwhere('orderid', 'LIKE', '%' . $req->q . '%')->orwhere('payment_id', 'LIKE', '%' . $req->q . '%')->paginate(5);
             return view('admin.morder.index', compact('datalist'));
         } elseif ($req->date != null) {
-            $datalist = Morder::whereDate('created_at', '=', date($req->date))->paginate(5);
+            $datalist = Morder::whereDate('created_at', '=', date($req->date))->paginate(10);
             return view('admin.morder.index', compact('datalist'));
         }
     }
