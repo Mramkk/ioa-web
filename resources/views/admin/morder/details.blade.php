@@ -20,78 +20,9 @@
 
     <div class="container">
 
-        <div class="row justify-content-between mb-5">
-            <div class="col-md-3">
-
-                <p>
-                    <span class="fw-bold">Invoice To :</span>
-                     <br>
-                    Mr / Mrs {{$datalist->address->name}} <br>
-                    {{$datalist->address->mobile}} <br>
-                    {{$datalist->address->address_line_1}} <br>
-                    {{$datalist->address->address_line_1}} <br>
-                    {{$datalist->address->state}},
-                    {{$datalist->address->city}},
-                    {{$datalist->address->pincode}}
-                </p>
-            </div>
-            <div class="col-md-3">
-
-                <p><span class="fs-2 text-info">{{$datalist->orderid}}</span> <br> Order Date : {{date('d-m-Y', strtotime($datalist->created_at))}}</p>
-            </div>
-        </div>
-        <h3 class="text-center mb-4">INVOICE </h3>
-        <table class="table table-striped">
-
-            <tr>
-                <td class="bg-info text-center text-white px-4 py-2">#</td>
-                <td class="px-4 py-2">Item Name</td>
-                <td class="px-4 py-2">Unit Price</td>
-                <td class="px-4 py-2">Discount</td>
-                <td class="px-4 py-2">Qty</td>
-                <td class="bg-info text-white px-4 py-2">Total</td>
-            </tr>
-            @foreach ($datalist->items as $key => $item)
-                <tr>
-                    <td class="bg-info text-center text-white px-4 py-2">{{ $key + 1 }}</td>
-                    <td class=" px-4 py-2">{{ $item->plant->title }}</td>
-                    <td class="px-4 py-2">{{ $item->plant->regular_price }}</td>
-                    <td class="px-4 py-2">
-                        {{ number_format($item->plant->regular_price - $item->plant->selling_price, 2) }}</td>
-                    <td class="px-4 py-2">{{ $item->qty }}</td>
-                    <td class="bg-info text-white px-4 py-2">
-                        {{ number_format($item->qty * $item->plant->selling_price, 2) }}</td>
-                </tr>
-            @endforeach
-            <tr>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2 fw-bold">Sub Total</td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2">
-                    {{ number_format($datalist->total_amt - $datalist->shipping_charges, 2) }}</td>
-            </tr>
-            <tr>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2 fw-bold">Shipping Charges</td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2">
-                    {{ number_format($datalist->shipping_charges,2) }}</td>
-            </tr>
-            <tr>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2 fw-bold">Total Amount</td>
-                <td class="px-4 py-2"></td>
-                <td class="px-4 py-2">
-                    {{ number_format($datalist->total_amt,2) }}</td>
-            </tr>
-
-        </table>
+        
+        
+        
 
 
 

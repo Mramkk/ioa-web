@@ -44,9 +44,7 @@
                                 </div>
                             </td>
                             <td class="cart__table--body__list">
-
                                 <a href="{{ url('admin/payment') . '/' . $data->payment_id }}"> {{ $data->payment_id }}</a>
-
                             </td>
 
                             <td class="cart__table--body__list">
