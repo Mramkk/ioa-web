@@ -277,8 +277,8 @@
                         <td class="unit">{{ $data->plant->regular_price }}</td>
                         <td class="discount">
                             {{ number_format((float) ($data->plant->regular_price - $data->plant->selling_price), 2, '.', '') }}</td>
-                        <td class="qty">{{ $data->plant->qty }}</td>
-                        <td class="total">{{ $data->plant->selling_price }}</td>
+                        <td class="qty">{{ $data->qty }}</td>
+                        <td class="total">{{ $data->plant->selling_price * $data->qty }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -286,18 +286,18 @@
                 <tr>
                     <td colspan="2"></td>
                     <td colspan="3">SUBTOTAL</td>
-                    <td>₹{{ Hpx::total_amount($cart_id, 'sub_total') }}</td>
+                    <td>₹{{ $datalist->total_amt }}</td>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
-                    <td colspan="3">Shipping Charge (₹{{ round($shipping_charge) }}/Kg)</td>
-                    <td>₹{{ Hpx::total_amount($cart_id, 'shipping_charge') }}</td>
+                    <td colspan="3">Shipping Charge (₹{{ $datalist->items[0]->shipping_charges }}/Kg)</td>
+                    <td>₹{{ $datalist->shipping_charges }}</td>
                 </tr>
-                @if (Hpx::total_amount($cart_id, 'coupon_discount') > 0)
+                @if ($datalist->coupon_discount > 0)
                     <tr>
                         <td colspan="2"></td>
                         <td colspan="3">Coupon Discount</td>
-                        <td>{{ Hpx::total_amount($cart_id, 'coupon_discount') }}</td>
+                        <td>{{ $datalist->coupon_discount }}</td>
                     </tr>
                 @endif
                 <tr>
