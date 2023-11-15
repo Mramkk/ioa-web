@@ -1,5 +1,5 @@
 @php
-    $cart_id = $datalist->first()->cart_id;
+    $cart_id = $datalist->first()->orderid;
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -234,19 +234,19 @@
         <div id="details" class="clearfix">
             <div id="client">
                 <div class="to">INVOICE TO:</div>
-                <h2 class="name" style="text-transform: capitalize;">{{ strtolower($order->username) }}</h2>
+                <h2 class="name" style="text-transform: capitalize;">{{$datalist->address->name}}</h2>
                 <div class="address">
-                    {{ $address->address_line_1 }}<br>
-                    {{ $address->address_line_2 }}<br>
-                    {{ $address->city }}, {{ $address->state }}<br>
-                    {{ $address->pincode }}<br>
+                    {{ $datalist->address->address_line_1 }}<br>
+                    {{ $datalist->address->address_line_2 }}<br>
+                    {{ $datalist->address->city }}, {{ $datalist->address->state }}<br>
+                    {{ $datalist->address->pincode }}<br>
                 </div>
                 <!-- <div class="email"><a href="mailto:john@example.com">john@example.com</a></div> -->
             </div>
             <div id="invoice">
-                <h1>INVOICE #{{ $order->invoice_no }}</h1>
+                <h1>INVOICE #{{ $datalist->orderid }}</h1>
                 <div class="date">Date of Invoice: {{ date('d/m/Y') }}</div>
-                <div class="date">Order Date: {{ date('d/m/Y', strtotime($order->created_at)) }}</div>
+                <div class="date">Order Date: {{ date('d/m/Y', strtotime($datalist->created_at)) }}</div>
             </div>
         </div>
         <table border="0" cellspacing="0" cellpadding="0">
@@ -266,19 +266,19 @@
                     $shipping_charge = 0;
                 @endphp
 
-                @foreach ($order_list as $data)
+                @foreach ($datalist->items as $data)
                     @php
-                        $shipping_charge = $data->shipping_charge;
+                        $shipping_charge = $data->shipping_charges;
                     @endphp
 
                     <tr>
                         <td class="no">{{ $sn++ }}</td>
-                        <td class="desc">{{ $data->product_name }}</td>
-                        <td class="unit">{{ $data->regular_price }}</td>
+                        <td class="desc">{{ $data->plant->title }}</td>
+                        <td class="unit">{{ $data->plant->regular_price }}</td>
                         <td class="discount">
-                            {{ number_format((float) ($data->regular_price - $data->selling_price), 2, '.', '') }}</td>
-                        <td class="qty">{{ $data->quantity }}</td>
-                        <td class="total">{{ $data->selling_price }}</td>
+                            {{ number_format((float) ($data->plant->regular_price - $data->plant->selling_price), 2, '.', '') }}</td>
+                        <td class="qty">{{ $data->plant->qty }}</td>
+                        <td class="total">{{ $data->plant->selling_price }}</td>
                     </tr>
                 @endforeach
             </tbody>
