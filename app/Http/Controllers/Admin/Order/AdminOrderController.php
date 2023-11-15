@@ -27,6 +27,23 @@ class AdminOrderController extends Controller
 
     public function byId(Request $req)
     {
+        if(!empty($req->invoice)) {
+            $datalist = Morder::where('orderid', $req->id)->first();
+        $address = Address::where('id', $datalist->address_id)->first();
+        $items = OrderedItem::where('orderid', $req->id)->get();
+        $data = collect([]);
+        foreach ($items as $item) {
+            $plant = Plant::where('pid', $item->pid)->first();
+            $item['plant'] = $plant;
+            $data->push($item);
+            $datalist['items'] = $data;
+        }
+        $datalist['address'] = $address;
+
+        // return $datalist;
+
+        return  view('admin.morder.invoice_data', compact('datalist'));
+        }
 
         $datalist = Morder::where('orderid', $req->id)->first();
         $address = Address::where('id', $datalist->address_id)->first();
@@ -39,6 +56,8 @@ class AdminOrderController extends Controller
             $datalist['items'] = $data;
         }
         $datalist['address'] = $address;
+
+        // return $datalist;
 
         return  view('admin.morder.details', compact('datalist'));
     }
