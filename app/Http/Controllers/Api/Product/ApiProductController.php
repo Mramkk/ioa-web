@@ -31,7 +31,9 @@ class ApiProductController extends Controller
             // $data = Plant::Where('sub_category', $req->sub_category)->with('imglg')->with('wishlist', function ($wishlist) {
             //     return $wishlist->where('uid', auth()->user()->id)->get();
             // })->get();
-            $data = Plant::Where('sub_category', $req->sub_category)->with('imglg')->with('recommended', function ($recommended) {
+            $data = Plant::Where('sub_category', $req->sub_category)->with('imglg')->with('wishlist', function ($wishlist) {
+                return $wishlist->where('uid', auth()->user()->id)->get();
+            })->with('recommended', function ($recommended) {
                 return $recommended->with('fertilizer')->with('imglg');
             })->get();
             return ApiRes::data($data);

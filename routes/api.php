@@ -95,6 +95,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/cart', 'data');
         Route::get('/cart/count', 'count');
         Route::post('/cart/add', 'add');
+        Route::post('/cart/add/all', 'addAll');
         Route::post('/cart/qty', 'qtyUpdate');
         Route::post('/cart/remove', 'remove');
         Route::post('/cart/delete', 'delete');

@@ -29,7 +29,7 @@ class ApiCartController extends Controller
     }
 
 
-    public function add(Request $req): JsonResponse
+    public function add(Request $req)
     {
         $totalShippingAmt = null;
         $plant = Plant::where('pid', $req->pid)->first();
@@ -62,6 +62,49 @@ class ApiCartController extends Controller
             } else {
                 return ApiRes::error();
             }
+        }
+    }
+    public function addAll(Request $req)
+    {
+        // $totalShippingAmt = null;
+        // $plant = Plant::where('pid', $req->pid)->first();
+        // $shipping = ShippingCharges::where('category', $plant->category)->first();
+        // if ($plant->category == "Product") {
+        //     $totalShippingAmt = $plant->weight * $shipping->amount;
+        // } else {
+        //     $totalShippingAmt = $shipping->amount;
+        // }
+
+        // return ApiRes::success($totalShippingAmt);
+        $status = null;
+        foreach ($req->pid as $pid) {
+            $totalShippingAmt = null;
+            $plant = Plant::where('pid', $pid)->first();
+            $shipping = ShippingCharges::where('category', $plant->category)->first();
+            if ($shipping->category == "Product") {
+                $totalShippingAmt = $plant->weight * $shipping->amount;
+            } else {
+                $totalShippingAmt = $shipping->amount;
+            }
+
+            $obj = Cart::Where('uid', auth()->user()->id)->Where('pid', $pid)->first();
+            if ($obj == null) {
+                $obj = new Cart();
+                $obj->uid = auth()->user()->id;
+                $obj->pid = $pid;
+                $obj->shipping_charges = $totalShippingAmt;
+                $status = $obj->save();
+            } else {
+                $obj->qty = $obj->qty += 1;
+                $obj->shipping_charges = $obj->shipping_charges += $totalShippingAmt;
+
+                $status = $obj->update();
+            }
+        }
+        if ($status) {
+            return ApiRes::success("Items added into cart.");
+        } else {
+            return ApiRes::error();
         }
     }
     public function qtyUpdate(Request $req): JsonResponse
