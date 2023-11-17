@@ -45,13 +45,11 @@ class Order_AdminController extends Controller
         return view('admin.'.$this->dir_name.'.index',compact('data_list'));
     }
 
-
     public function create()
     {
         $categories = Category::all();
         return view('admin.'.$this->dir_name.'.create',compact('categories'));
     }
-
 
     public function store(Request $request)
     {

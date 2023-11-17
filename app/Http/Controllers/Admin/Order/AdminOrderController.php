@@ -40,8 +40,6 @@ class AdminOrderController extends Controller
         }
         $datalist['address'] = $address;
 
-        // return $datalist;
-
         return  view('admin.morder.invoice_data', compact('datalist'));
         }
 
@@ -56,8 +54,6 @@ class AdminOrderController extends Controller
             $datalist['items'] = $data;
         }
         $datalist['address'] = $address;
-
-        // return $datalist->address->name;
 
         return  view('admin.morder.details', compact('datalist'));
     }
