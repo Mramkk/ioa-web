@@ -8,6 +8,7 @@ use App\Models\Morder;
 use App\Models\OrderedItem;
 use App\Models\Plant;
 use Illuminate\Http\Request;
+use PDF;
 
 class AdminOrderController extends Controller
 {
@@ -27,20 +28,37 @@ class AdminOrderController extends Controller
 
     public function byId(Request $req)
     {
-        if(!empty($req->invoice)) {
+        if($req->invoice == 'download')
+        {
             $datalist = Morder::where('orderid', $req->id)->first();
-        $address = Address::where('id', $datalist->address_id)->first();
-        $items = OrderedItem::where('orderid', $req->id)->get();
-        $data = collect([]);
-        foreach ($items as $item) {
-            $plant = Plant::where('pid', $item->pid)->first();
-            $item['plant'] = $plant;
-            $data->push($item);
-            $datalist['items'] = $data;
-        }
-        $datalist['address'] = $address;
+            $address = Address::where('id', $datalist->address_id)->first();
+            $items = OrderedItem::where('orderid', $req->id)->get();
+            $data = collect([]);
+            foreach ($items as $item) {
+                $plant = Plant::where('pid', $item->pid)->first();
+                $item['plant'] = $plant;
+                $data->push($item);
+                $datalist['items'] = $data;
+            }
+            $datalist['address'] = $address;
 
-        return  view('admin.morder.invoice_data', compact('datalist'));
+            $pdf = PDF::loadView('admin.morder.invoice', compact('datalist'));
+            return $pdf->download('INVOICE-' . $datalist->orderid . '.pdf');
+        }
+        if (!empty($req->invoice)) {
+            $datalist = Morder::where('orderid', $req->id)->first();
+            $address = Address::where('id', $datalist->address_id)->first();
+            $items = OrderedItem::where('orderid', $req->id)->get();
+            $data = collect([]);
+            foreach ($items as $item) {
+                $plant = Plant::where('pid', $item->pid)->first();
+                $item['plant'] = $plant;
+                $data->push($item);
+                $datalist['items'] = $data;
+            }
+            $datalist['address'] = $address;
+
+            return  view('admin.morder.invoice_data', compact('datalist'));
         }
 
         $datalist = Morder::where('orderid', $req->id)->first();

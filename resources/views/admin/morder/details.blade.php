@@ -48,7 +48,8 @@
                                 @foreach ($status_list as $status)
                                     <option value="{{ $status }}"
                                         class="text-capitalize btn-{{ str_replace(' ', '_', $status) }}"
-                                        {{ $datalist->status == $status ? 'selected' : null }}>{{ ucfirst($status) }}</option>
+                                        {{ $datalist->status == $status ? 'selected' : null }}>{{ ucfirst($status) }}
+                                    </option>
                                 @endforeach
                             </select>
                             <button type="button" id="status_btn" class="btn btn-primary fs-4 ups-btn mt-3">
@@ -78,6 +79,7 @@
                     </form>
                 </div>
             </div> --}}
+
 
             <div class="col-md-3">
                 <div class="title-card">
@@ -210,6 +212,20 @@
     </style>
 @endsection
 
+@section('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Order Invoice
+            $(document).on('click', '#invoice_btn', function() {
+                var invoice_action = $('#invoice_form select').val();
+                if (invoice_action == 'download') {
+                    location.href = '?invoice=download';
+                }
+            });
+        });
+    </script>
+@endsection
+
 {{-- @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
@@ -277,7 +293,6 @@
                     x.ajxLoader('#invoice_btn .loaderx');
                     x.start();
                 }
-
             });
 
         });
