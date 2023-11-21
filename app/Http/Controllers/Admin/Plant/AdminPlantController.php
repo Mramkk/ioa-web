@@ -213,6 +213,7 @@ class AdminPlantController extends Controller
     }
     public function update(Request $req)
     {
+        // return $req->all();
 
 
         $req->validate([
@@ -350,29 +351,34 @@ class AdminPlantController extends Controller
             $status =  $img->save();
         }
 
-        if ($req->recommended_fertilizer != null) {
-            $req->validate([
-                'recommended_fertilizer' => 'required|string|max:225',
-            ]);
-        }
+        $cat =  Plant::Where('id', $req->id)->first()->category;
 
-        $status =  RecommendedFertilizer::where('pid', $req->id)->delete();
-        $fertilizer = explode(",", $req->recommended_fertilizer);
-        if (count($fertilizer) > 1) {
-            foreach ($fertilizer as $item) {
-                $rf = new RecommendedFertilizer();
-                $rf->pid = $req->id;
-                $rf->fertilizer_id = $item;
-                $status = $rf->save();
+        if ($cat == "Plant") {
+
+            if ($req->recommended_fertilizer != null) {
+                $req->validate([
+                    'recommended_fertilizer' => 'required|string|max:225',
+                ]);
             }
 
-            // return $fertilizer;
-        } else {
-            // return $fertilizer[0];
-            $rf = new RecommendedFertilizer();
-            $rf->pid = $req->id;
-            $rf->fertilizer_id = $req->recommended_fertilizer;
-            $status = $rf->save();
+            $status =  RecommendedFertilizer::where('pid', $req->id)->delete();
+            $fertilizer = explode(",", $req->recommended_fertilizer);
+            if (count($fertilizer) > 1) {
+                foreach ($fertilizer as $item) {
+                    $rf = new RecommendedFertilizer();
+                    $rf->pid = $req->id;
+                    $rf->fertilizer_id = $item;
+                    $status = $rf->save();
+                }
+
+                // return $fertilizer;
+            } else {
+                // return $fertilizer[0];
+                $rf = new RecommendedFertilizer();
+                $rf->pid = $req->id;
+                $rf->fertilizer_id = $req->recommended_fertilizer;
+                $status = $rf->save();
+            }
         }
 
 
