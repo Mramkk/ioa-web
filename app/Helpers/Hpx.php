@@ -6,7 +6,8 @@ use App\Models\Order;
 class Hpx{
 
 public static function order_status_list(){
-    $status = array('placed','dispatched','completed','cancelled','refunded','payment pending','payment failed');
+    // $status = array('placed','dispatched','completed','cancelled','refunded','payment pending','payment failed');
+    $status = array('placed','dispatched','completed','cancelled');
     return $status;
 }
 
