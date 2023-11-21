@@ -31,8 +31,7 @@ class AdminOrderController extends Controller
 
     public function byId(Request $req)
     {
-        if($req->invoice == 'download')
-        {
+        if ($req->invoice == 'download') {
             $datalist = Morder::where('orderid', $req->id)->first();
             $address = Address::where('id', $datalist->address_id)->first();
             $items = OrderedItem::where('orderid', $req->id)->get();
