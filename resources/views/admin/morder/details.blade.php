@@ -83,7 +83,7 @@
 
             <div class="col-md-3">
                 <div class="title-card">
-                    <form action="#" id="invoice_form">
+                    <form action="{{ url('admin/morder') . '/' . $datalist->orderid }}" id="invoice_form" method="POST">
                         <input type="hidden" name="id" value="{{ $datalist->id }}">
                         <h1>Order Invoice</h1>
                         <div class="mb-3">
@@ -220,6 +220,15 @@
                 var invoice_action = $('#invoice_form select').val();
                 if (invoice_action == 'download') {
                     location.href = '?invoice=download';
+                }else if (invoice_action == 'send_to_user') {
+                    var x = new Ajx;
+                    x.form = '#invoice_form';
+                    x.actionUrl('{{ url('admin/morder') . '/' . $datalist->orderid }}');
+                    x.passData('action', 'SEND_INVOICE');
+                    x.globalAlert(true);
+                    x.disableBtn('#invoice_btn');
+                    x.ajxLoader('#invoice_btn .loaderx');
+                    x.start();
                 }
             });
         });
