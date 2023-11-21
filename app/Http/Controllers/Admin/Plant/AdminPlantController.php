@@ -200,11 +200,16 @@ class AdminPlantController extends Controller
         $data = Plant::Where('id', $req->id)->withCount('imglg')->with('imglg')->first();
         $categories = Category::all();
         $subCat = SubCategory::all();
-        if (!empty($data)) {
+        if ($cat == "Plant") {
             return view('admin.plant.edit', compact('data', 'categories', 'subCat', 'fertilizers', 'rfs'));
         } else {
-            return abort('403', 'Id Not Found');
+            return view('admin.plant.edit', compact('data', 'categories', 'subCat'));
         }
+        // if (!empty($data)) {
+        //     return view('admin.plant.edit', compact('data', 'categories', 'subCat', 'fertilizers', 'rfs'));
+        // } else {
+        //     return abort('403', 'Id Not Found');
+        // }
     }
     public function update(Request $req)
     {
