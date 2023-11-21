@@ -32,7 +32,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     // Route::prefix('admin')->group(function(){
 
     Route::get('/', function () {
-        return redirect()->route('order.index');
+        return redirect()->route('admin.order.index');
     })->name('admin.dashboard');
 
     // =========== Slider ==========

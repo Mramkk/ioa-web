@@ -240,7 +240,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 @if (auth()->check())
                                     @if (auth()->user()->type == 'admin')
-                                        <li><a class="dropdown-item" href="{{ route('order.index') }}"><i
+                                        <li><a class="dropdown-item" href="{{ route('admin.order.index') }}"><i
                                                     class="icofont-institution"></i> Admin Panel</a></li>
                                     @endif
                                     <li><a class="dropdown-item" href="#"><i class="icofont-user-alt-7"></i>
