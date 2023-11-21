@@ -10,6 +10,11 @@ class OrderedItem extends Model
     use HasFactory;
     public function plant()
     {
-        return $this->hasOne(Plant::class);
+        return $this->hasOne(Plant::class, 'pid', 'pid');
+    }
+
+    public function img()
+    {
+        return $this->hasOne(PlantImg::class, 'pid', 'pid')->where('type', 'md');
     }
 }

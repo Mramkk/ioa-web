@@ -13,7 +13,14 @@ class Cart extends Model
     {
         return $this->hasOne(Plant::class, 'pid', 'pid');
     }
-
+    public function coupon()
+    {
+        return $this->hasMany(Coupon::class, 'code', 'coupon_code');
+    }
+    public function firstBuy()
+    {
+        return $this->hasMany(FirstBuy::class, 'uid', 'uid')->where('status', '1');
+    }
     public function img()
     {
         return $this->hasOne(PlantImg::class, 'pid', 'pid')->where('type', 'md');

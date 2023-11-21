@@ -16,31 +16,26 @@ class ApiOrderController extends Controller
 {
     public function data()
     {
-        $data = Morder::where('uid', auth()->user()->id)
-            ->latest()->with('firstBuy')->with('coupon')->with('items', function ($item) {
-                return $item->with('plant', function ($plant) {
-                    return $plant->with('img');
-                });
-            })->get();
-        // $order = collect([]);
-        // foreach ($datalist as $data) {
-        //     $address = Address::where('id', $data->address_id)->first();
-        //     $items = OrderedItem::where('orderid', $data->orderid)->get();
-        //     foreach ($items as $item) {
+        $datalist = Morder::where('uid', auth()->user()->id)->latest()->get();
+        $order = collect([]);
+        foreach ($datalist as $data) {
+            $address = Address::where('id', $data->address_id)->first();
+            $items = OrderedItem::where('orderid', $data->orderid)->get();
+            foreach ($items as $item) {
 
-        //         $plant = Plant::where('pid', $item->pid)->first();
-        //         $item['plant'] = $plant;
-        //         $img = PlantImg::where('pid', $item->pid)->where('slno', '1')->where('type', 'md')->first();
-        //         $plant['img'] = $img;
-        //     }
-        //     $data['address'] = $address;
-        //     $data['items'] = $items;
+                $plant = Plant::where('pid', $item->pid)->first();
+                $item['plant'] = $plant;
+                $img = PlantImg::where('pid', $item->pid)->where('slno', '1')->where('type', 'md')->first();
+                $plant['img'] = $img;
+            }
+            $data['address'] = $address;
+            $data['items'] = $items;
 
 
-        //     $order->push($data);
-        // }
+            $order->push($data);
+        }
 
-        return ApiRes::data($data);
+        return ApiRes::data($order);
     }
     public function byId(Request $req)
     {

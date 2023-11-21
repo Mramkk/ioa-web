@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Address_ApiController;
 use App\Http\Controllers\Api\Auth_ApiController;
 use App\Http\Controllers\Api\Cart\ApiCartController;
 use App\Http\Controllers\Api\Category_ApiController;
+use App\Http\Controllers\Api\Coupon\ApiCouponController;
 use App\Http\Controllers\Api\Mix_ApiController;
 use App\Http\Controllers\Api\Mplant\ApiMplantController;
 use App\Http\Controllers\Api\Mplant\ApiSeasonWiseController;
@@ -75,6 +76,12 @@ Route::middleware('auth:sanctum')->group(function () {
     //     Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');
     //     Route::get('/fertilizer/by/category', 'fertilizerCate');
     // });
+
+    // Coupon Code
+    Route::controller(ApiCouponController::class)->group(function () {
+        Route::get('/coupon', 'data');
+        Route::post('/coupon/apply', 'apply');
+    });
     // MPlants as Plants
     Route::controller(ApiMplantController::class)->group(function () {
         Route::get('/plant', 'data');
@@ -129,6 +136,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/slider/main', 'main');
         Route::get('/slider/nursery', 'nursery');
     });
+    //
 });
 
 Route::controller(ApiUserController::class)->group(function () {

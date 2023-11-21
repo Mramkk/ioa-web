@@ -11,7 +11,7 @@ class Plant extends Model
 
     public function img()
     {
-        return $this->hasOne(PlantImg::class, 'pid', 'pid')->where('type', 'md');
+        return $this->hasOne(PlantImg::class, 'pid', 'pid')->where('type', 'lg');
     }
 
     public function imgmd()
