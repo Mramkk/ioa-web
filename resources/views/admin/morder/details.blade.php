@@ -53,7 +53,7 @@
                                 @endforeach
                             </select>
                             <button type="button" id="status_btn" class="btn btn-primary fs-4 ups-btn mt-3">
-                                Update & Send Mail
+                                Update
                                 {!! Hpx::spinner() !!}
                             </button>
                         </div>
@@ -80,7 +80,6 @@
                 </div>
             </div> --}}
 
-
             <div class="col-md-3">
                 <div class="title-card">
                     <form action="{{ url('admin/morder') . '/' . $datalist->orderid }}" id="invoice_form" method="POST">
@@ -101,7 +100,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Order Details -->
 

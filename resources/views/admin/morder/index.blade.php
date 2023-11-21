@@ -51,8 +51,10 @@
                                 <span class="fw-bold"> <span class="text-danger">₹</span> {{ $data->total_amt }}</span>
                             </td>
                             <td class="cart__table--body__list">
-                                <span class="blink">
-                                    {{ Str::upper($data->status) }}
+                                <span
+                                    class="text-capitalize btn-stx btn-{{ str_replace(' ', '_', $data->status) }} edit-status"
+                                    data-status="{{ $data->status }}" data-open="modal1" data-id="{{ $data->id }}">
+                                    {{ $data->status }}
                                 </span>
                             </td>
                             <td class="cart__table--body__list ">
@@ -106,7 +108,7 @@
                                                     <input id="status4" name="status" type="radio" value="cancelled">
                                                     <label class="variant__size--value red" for="status4">Cancelled</label>
                                                 </li>
-                                                <li class="variant__size--list">
+                                                {{-- <li class="variant__size--list">
                                                     <input id="status5" name="status" type="radio" value="refunded">
                                                     <label class="variant__size--value red" for="status5">Refunded</label>
                                                 </li>
@@ -121,7 +123,7 @@
                                                         value="payment failed">
                                                     <label class="variant__size--value red" for="status7">Payment
                                                         Failed</label>
-                                                </li>
+                                                </li> --}}
                                             </ul>
                                             <button type="button" id="save_sts_btn"
                                                 class="btn btn-primary fs-4 mt-2 w-100" style="width: 14rem">

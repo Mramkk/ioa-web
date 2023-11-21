@@ -52,7 +52,7 @@
                                 @endforeach
                             </select>
                             <button type="button" id="status_btn" class="btn btn-primary fs-4 ups-btn mt-3">
-                                Update & Send Mail
+                                Update 
                                 {!! Hpx::spinner() !!}
                             </button>
                         </div>
