@@ -309,23 +309,7 @@
                     @endif
 
                 </tr>
-                {{-- <tr>
-                    <td colspan="2"></td>
-                    <td colspan="3">Shipping Charge (₹{{ $datalist->items[0]->shipping_charges }}/Kg)</td>
-                    <td>₹{{ $datalist->first()->shipping_charges }}</td>
-                </tr> --}}
-                {{-- @if ($datalist->coupon_discount > 0)
-                    <tr>
-                        <td colspan="2"></td>
-                        <td colspan="3">Coupon Discount</td>
-                        <td>{{ $datalist->coupon_discount }}</td>
-                    </tr>
-                @endif --}}
-                {{-- <tr>
-                    <td colspan="2"></td>
-                    <td colspan="3">GRAND TOTAL</td>
-                    <td>₹{{ round(Hpx::total_amount($totalAmt)) }}</td>
-                </tr> --}}
+
                 <tr>
                     <td colspan="2"></td>
                     <td colspan="3">GRAND TOTAL</td>
