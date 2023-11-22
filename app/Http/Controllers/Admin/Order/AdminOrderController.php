@@ -31,6 +31,13 @@ class AdminOrderController extends Controller
 
     public function byId(Request $req)
     {
+
+        // $datalist = Morder::where('orderid', $req->id)
+        //     ->latest()->with('address')->with('firstBuy')->with('coupon')->with('items', function ($item) {
+        //         return $item->with('plant');
+        //     })->get();
+        // return  $datalist;
+
         if ($req->invoice == 'download') {
             $datalist = Morder::where('orderid', $req->id)->first();
             $address = Address::where('id', $datalist->address_id)->first();
@@ -48,8 +55,7 @@ class AdminOrderController extends Controller
             return $pdf->download('INVOICE-' . $datalist->orderid . '.pdf');
         }
 
-        if($req->invoice == 'SEND_INVOICE')
-        {
+        if ($req->invoice == 'SEND_INVOICE') {
             $x = new EasyData;
             $x->request = $req;
             $datalist = Morder::where('orderid', $req->id)->first();
@@ -74,20 +80,26 @@ class AdminOrderController extends Controller
             $pdf = PDF::loadView('admin.morder.invoice', compact('datalist'));
             return $pdf->download('INVOICE-' . $datalist->orderid . '.pdf');
         }
-        
+
 
         if (!empty($req->invoice)) {
-            $datalist = Morder::where('orderid', $req->id)->first();
-            $address = Address::where('id', $datalist->address_id)->first();
-            $items = OrderedItem::where('orderid', $req->id)->get();
-            $data = collect([]);
-            foreach ($items as $item) {
-                $plant = Plant::where('pid', $item->pid)->first();
-                $item['plant'] = $plant;
-                $data->push($item);
-                $datalist['items'] = $data;
-            }
-            $datalist['address'] = $address;
+            // $datalist = Morder::where('orderid', $req->id)->first();
+            // $address = Address::where('id', $datalist->address_id)->first();
+            // $items = OrderedItem::where('orderid', $req->id)->get();
+            // $data = collect([]);
+            // foreach ($items as $item) {
+            //     $plant = Plant::where('pid', $item->pid)->first();
+            //     $item['plant'] = $plant;
+            //     $data->push($item);
+            //     $datalist['items'] = $data;
+            // }
+            // $datalist['address'] = $address;
+
+            $datalist = Morder::where('orderid', $req->id)
+                ->latest()->with('address')->with('firstBuy')->with('coupon')->with('items', function ($item) {
+                    return $item->with('plant');
+                })->get();
+            // return  $datalist;
 
             return  view('admin.morder.invoice_data', compact('datalist'));
         }
@@ -103,6 +115,8 @@ class AdminOrderController extends Controller
             $datalist['items'] = $data;
         }
         $datalist['address'] = $address;
+
+
 
         return  view('admin.morder.details', compact('datalist'));
     }

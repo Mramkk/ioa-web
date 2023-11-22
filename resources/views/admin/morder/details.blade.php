@@ -82,7 +82,7 @@
 
             <div class="col-md-3">
                 <div class="title-card">
-                    <form action="{{ url('admin/morder') . '/' . $datalist->orderid }}" id="invoice_form" method="POST">
+                    <form action="{{ url('admin/morder') . '/' . $datalist->orderid }}" id="invoice_form" method="GET">
                         <input type="hidden" name="id" value="{{ $datalist->id }}">
                         <h1>Order Invoice</h1>
                         <div class="mb-3">
@@ -91,7 +91,7 @@
                                 <option value="download">Download</option>
                                 <option value="send_to_user">Send to User</option>
                             </select>
-                            <button type="button" id="invoice_btn" class="btn btn-primary fs-4 ups-btn mt-3">
+                            <button type="submit" id="invoice_btn" class="btn btn-primary fs-4 ups-btn mt-3">
                                 Proceed
                                 {!! Hpx::spinner() !!}
                             </button>
@@ -211,17 +211,17 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         $(document).ready(function() {
             // Order Invoice
             $(document).on('click', '#invoice_btn', function() {
                 var invoice_action = $('#invoice_form select').val();
                 if (invoice_action == 'download') {
                     location.href = '?invoice=download';
-                }else if (invoice_action == 'send_to_user') {
+                } else if (invoice_action == 'send_to_user') {
                     var x = new Ajx;
                     x.form = '#invoice_form';
-                    x.actionUrl('{{ url('admin/morder') . '/' . $datalist->orderid }}');
+                    x.actionUrl("{{ url('admin/morder') . '/' . $datalist->orderid }}");
                     x.passData('action', 'SEND_INVOICE');
                     x.globalAlert(true);
                     x.disableBtn('#invoice_btn');
@@ -230,7 +230,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endsection
 
 {{-- @section('script')
