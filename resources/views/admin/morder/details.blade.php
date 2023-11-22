@@ -16,24 +16,6 @@
         @include('admin.includes.title-bar')
 
         <div class="row">
-            {{-- <div class="col-md-3">
-                <div class="title-card">
-                    <form action="{{ route($route_name . '.store') }}" id="tracking_form">
-                        <input type="hidden" name="action" value="TRACKING_ID">
-                        <input type="hidden" name="id" value="{{ $order->id }}">
-                        <h1>Tracking ID</h1>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" value="{{ $order->tracking_id }}" name="tracking_id"
-                                placeholder="######" style="text-transform:uppercase">
-                            <button type="button" id="tracking_btn" class="btn btn-primary fs-4 ups-btn mt-3">
-                                Update & Send Mail
-                                {!! Hpx::spinner() !!}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div> --}}
-
 
             <div class="col-md-3">
                 <div class="title-card">
@@ -60,25 +42,6 @@
                     </form>
                 </div>
             </div>
-
-            {{-- <div class="col-md-3">
-                <div class="title-card">
-                    <form action="{{ route($route_name . '.store') }}" id="payment_status_form">
-                        <input type="hidden" name="action" value="PAYMENT_STATUS">
-                        <input type="hidden" name="payment_id" value="{{ $order->payment_id }}">
-                        <h1>Payment Status</h1>
-                        <div class="mb-3">
-                            <input type="text" class="form-control py-{{ $order->payment_status }}"
-                                value="{{ $order->payment_status }}" name="payment_status"
-                                style="text-transform:capitalize;" readonly>
-                            <button type="button" id="payment_status_btn" class="btn btn-primary fs-4 ups-btn mt-3">
-                                Refresh
-                                {!! Hpx::spinner() !!}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div> --}}
 
             <div class="col-md-3">
                 <div class="title-card">
@@ -233,75 +196,4 @@
     </script>
 @endsection
 
-{{-- @section('script')
-    <script type="text/javascript">
-        $(document).ready(function() {
 
-            // Change Order Status
-            $(document).on('click', '#status_btn', function() {
-                var x = new Ajx;
-                x.form = '#status_form';
-                x.actionUrl('{{ route($route_name . '.store') }}');
-                x.globalAlert(true);
-                x.disableBtn('#status_btn');
-                x.ajxLoader('#status_btn .loaderx');
-                x.start(function(response) {
-                    // if (response.status == true) {
-                    //     location.reload();
-                    // }
-                });
-            });
-
-            // Update Tracking ID
-            $(document).on('click', '#tracking_btn', function() {
-                var x = new Ajx;
-                x.form = '#tracking_form';
-                x.actionUrl('{{ route($route_name . '.store') }}');
-                x.globalAlert(true);
-                x.disableBtn('#tracking_btn');
-                x.ajxLoader('#tracking_btn .loaderx');
-                x.start(function(response) {
-                    // if (response.status == true) {
-                    //     location.reload();
-                    // }
-                });
-            });
-
-            // Refresh Payment Status
-            $(document).on('click', '#payment_status_btn', function() {
-                var x = new Ajx;
-                x.form = '#payment_status_form';
-                x.actionUrl('{{ route($route_name . '.store') }}');
-                x.globalAlert(true);
-                x.disableBtn('#payment_status_btn');
-                x.ajxLoader('#payment_status_btn .loaderx');
-                x.start(function(response) {
-                    if (response.status == true) {
-                        $('#payment_status_form input').val(response.data);
-                        $('#payment_status_form input').addClass('py-' + response.data);
-                    }
-                });
-            });
-
-            // Order Invoice
-            $(document).on('click', '#invoice_btn', function() {
-                var invoice_action = $('#invoice_form select').val();
-                if (invoice_action == 'stream') {
-                    location.href = '?invoice=stream';
-                } else if (invoice_action == 'download') {
-                    location.href = '?invoice=download';
-                } else if (invoice_action == 'send_to_user') {
-                    var x = new Ajx;
-                    x.form = '#invoice_form';
-                    x.actionUrl('{{ route($route_name . '.store') }}');
-                    x.passData('action', 'SEND_INVOICE');
-                    x.globalAlert(true);
-                    x.disableBtn('#invoice_btn');
-                    x.ajxLoader('#invoice_btn .loaderx');
-                    x.start();
-                }
-            });
-
-        });
-    </script>
-@endsection --}}
