@@ -78,7 +78,7 @@ class AdminOrderController extends Controller
 
             $pdf_name = $datalist->first()->orderid . '.pdf';
             $pdf = PDF::loadView('admin.morder.invoice', compact('datalist'))->output();
-            Mail::to('jisvishalkumar@gmail.com')->send(new SendInvoice2(compact('datalist', 'pdf', 'pdf_name')));
+            // Mail::to('jisvishalkumar@gmail.com')->send(new SendInvoice2(compact('datalist', 'pdf', 'pdf_name')));
             $x->status(true);
             $x->message('Invoice has been sent.');
             return $x->json_output();
