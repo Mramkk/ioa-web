@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\Plant\ApiPlantController;
 use App\Http\Controllers\Api\Product\ApiProductController;
 use App\Http\Controllers\Api\Product_ApiController;
 use App\Http\Controllers\Api\Razorpay\ApiRazorpayController;
+use App\Http\Controllers\Api\Referral\ApiReferralController;
+use App\Http\Controllers\Api\ReferralCommission\ApiReferralCommissionController;
 use App\Http\Controllers\Api\Slider\ApiMainSliderController;
 use App\Http\Controllers\Api\Slider\ApiNurserySliderController;
 use App\Http\Controllers\Api\Slider\ApiSliderController;
@@ -98,6 +100,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/wishlist', 'data');
         Route::post('/wishlist/crud', 'crud');
     });
+    // Cart
     Route::controller(ApiCartController::class)->group(function () {
         Route::get('/cart', 'data');
         Route::get('/cart/count', 'count');
@@ -107,7 +110,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/cart/remove', 'remove');
         Route::post('/cart/delete', 'delete');
     });
-
+    // Address
     Route::controller(ApiAddressController::class)->group(function () {
         Route::get('/maddress', 'data');
         Route::get('/maddress/active', 'getActive');
@@ -116,14 +119,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/maddress/update', 'update');
         Route::post('/maddress/delete', 'delete');
     });
+    // Razorpay payment getway
     Route::controller(ApiRazorpayController::class)->group(function () {
         Route::get('/razorpay/orderid', 'genOrderId');
         Route::post('/razorpay/payment', 'payment');
     });
+    // Order as morder
     Route::controller(ApiOrderController::class)->group(function () {
         Route::get('/morder', 'data');
         Route::get('/morder/orderid', 'byId');
     });
+    // User
     Route::controller(ApiUserController::class)->group(function () {
         Route::get('/muser', 'data');
         Route::post('/send/email', 'sendEmail');
@@ -131,12 +137,22 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/muser/image', 'image');
         Route::post('/muser/logout', 'logout');
     });
-
+    // Slider
     Route::controller(ApiSliderController::class)->group(function () {
         Route::get('/slider/main', 'main');
         Route::get('/slider/nursery', 'nursery');
     });
-    //
+    // Referral
+    Route::controller(ApiReferralController::class)->group(function () {
+        Route::get('/referral', 'data');
+        Route::post('/referral/save', 'save');
+    });
+
+    // Referral Commission
+    Route::controller(ApiReferralCommissionController::class)->group(function () {
+        Route::get('/referral/commission', 'data');
+        Route::post('/referral/commission/apply', 'apply');
+    });
 });
 
 Route::controller(ApiUserController::class)->group(function () {

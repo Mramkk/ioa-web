@@ -99,7 +99,7 @@ class AdminOrderController extends Controller
                 ->latest()->with('address')->with('firstBuy')->with('coupon')->with('items', function ($item) {
                     return $item->with('plant');
                 })->get();
-            // return  $datalist;
+
 
             return  view('admin.morder.invoice_data', compact('datalist'));
         }
