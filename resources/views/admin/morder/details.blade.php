@@ -45,8 +45,8 @@
 
             <div class="col-md-3">
                 <div class="title-card">
-                    <form action="{{ url('admin/morder') . '/' . $datalist->orderid }}" id="invoice_form" method="GET">
-                        <input type="hidden" name="id" value="{{ $datalist->id }}">
+                    <form action="{{ url('admin/morder') . '/' . $datalist->orderid }}" id="invoice_form">
+                        <input type="hidden" name="id" value="{{ $datalist->orderid }}">
                         <h1>Order Invoice</h1>
                         <div class="mb-3">
                             <select class="form-select" name="invoice_action">
@@ -174,7 +174,7 @@
 @endsection
 
 @section('script')
-    {{-- <script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function() {
             // Order Invoice
             $(document).on('click', '#invoice_btn', function() {
@@ -193,7 +193,7 @@
                 }
             });
         });
-    </script> --}}
+    </script>
 @endsection
 
 

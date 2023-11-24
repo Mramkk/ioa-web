@@ -1,5 +1,8 @@
 @php
-    $cart_id = $datalist->first()->orderid;
+    // $cart_id = $datalist->first()->orderid;
+    $totalShippingAmt = null;
+    $subTotalAmt = null;
+    $totalAmt = null;
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -246,19 +249,19 @@
         <div id="details" class="clearfix">
             <div id="client">
                 <div class="to">INVOICE TO:</div>
-                <h2 class="name" style="text-transform: capitalize;">{{ strtolower($datalist->address->name) }}</h2>
+                <h2 class="name" style="text-transform: capitalize;">{{ $datalist->first()->address->name }}</h2>
                 <div class="address">
-                    {{ $datalist->address->address_line_1 }}<br>
-                    {{ $datalist->address->address_line_2 }}<br>
-                    {{ $datalist->address->city }}, {{ $datalist->address->state }}<br>
-                    {{ $datalist->address->pincode }}<br>
+                    {{ $datalist->first()->address->address_line_1 }}<br>
+                    {{ $datalist->first()->address->address_line_2 }}<br>
+                    {{ $datalist->first()->address->city }}, {{ $datalist->first()->address->state }}<br>
+                    {{ $datalist->first()->address->pincode }}<br>
                 </div>
                 <!-- <div class="email"><a href="mailto:john@example.com">john@example.com</a></div> -->
             </div>
             <div id="invoice">
-                <h1>INVOICE #{{ $datalist->orderid }}</h1>
+                <h1>INVOICE #{{ $datalist->first()->orderid }}</h1>
                 <div class="date">Date of Invoice: {{ date('d/m/Y') }}</div>
-                <div class="date">Order Date: {{ date('d/m/Y', strtotime($datalist->created_at)) }}</div>
+                <div class="date">Order Date: {{ date('d/m/Y', strtotime($datalist->first()->created_at)) }}</div>
             </div>
         </div>
         <table border="0" cellspacing="0" cellpadding="0">
@@ -273,18 +276,15 @@
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $sn = 1;
-                    $shipping_charge = 0;
-                @endphp
-
-                @foreach ($datalist->items as $data)
+                @foreach ($datalist->first()->items as $sn => $data)
                     @php
-                        $shipping_charge = $data->shipping_charges;
+                        $totalShippingAmt += $data->shipping_charges;
+                        $subTotalAmt += $data->plant->selling_price * $data->qty;
+                        $totalAmt += $subTotalAmt + $totalShippingAmt;
                     @endphp
 
                     <tr>
-                        <td class="no">{{ $sn++ }}</td>
+                        <td class="no">{{ $sn += 1 }}</td>
                         <td class="desc">{{ $data->plant->title }}</td>
                         <td class="unit">{{ $data->plant->regular_price }}</td>
                         <td class="discount">
@@ -299,24 +299,31 @@
                 <tr>
                     <td colspan="2"></td>
                     <td colspan="3">SUBTOTAL</td>
-                    <td>₹{{ $datalist->total_amt }}</td>
+                    <td>+ ₹ {{ $subTotalAmt }}</td>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
-                    <td colspan="3">Shipping Charge (₹{{ $datalist->items[0]->shipping_charges }}/Kg)</td>
-                    <td>₹{{ $datalist->shipping_charges }}</td>
+                    <td colspan="3">Total Shipping Charges </td>
+                    <td>+ ₹ {{ $totalShippingAmt }}</td>
                 </tr>
-                @if ($datalist->coupon_discount > 0)
-                    <tr>
+                <tr>
+
+                    @if ($datalist->first()->firstBuy->count() > 0)
                         <td colspan="2"></td>
-                        <td colspan="3">Coupon Discount</td>
-                        <td>{{ $datalist->coupon_discount }}</td>
-                    </tr>
-                @endif
+                        <td colspan="3">First Buy 20 % Discount </td>
+                        <td>- ₹ {{ $totalAmt * ($datalist->first()->firstBuy->first()->discount / 100) }}</td>
+                    @elseif ($datalist->first()->coupon->count() > 0)
+                        <td colspan="2"></td>
+                        <td colspan="3">Coupon {{ $datalist->first()->coupon->first()->discount }} % Discount </td>
+                        <td>- ₹ {{ $totalAmt * ($datalist->first()->coupon->first()->discount / 100) }}</td>
+                    @endif
+
+                </tr>
+
                 <tr>
                     <td colspan="2"></td>
                     <td colspan="3">GRAND TOTAL</td>
-                    <td>₹{{ round(Hpx::total_amount($cart_id)) }}</td>
+                    <td> ₹ {{ $datalist->first()->total_amt }}</td>
                 </tr>
             </tfoot>
         </table>
