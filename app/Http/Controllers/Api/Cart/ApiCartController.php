@@ -27,7 +27,9 @@ class ApiCartController extends Controller
     public function data()
     {
 
-        $obj = Cart::Where('uid', auth()->user()->id)->with('firstBuy')->with('coupon')->with('plant')->with('img')->get();
+        $obj = Cart::Where('uid', auth()->user()->id)->with('firstBuy')->with('coupon')->with('referral')->with('plant', function ($plant) {
+            return $plant->with('img')->get();
+        })->get();
         return ApiRes::data($obj);
     }
 
@@ -41,9 +43,6 @@ class ApiCartController extends Controller
         if ($order == null &&  $fb == null) {
             $fb = new FirstBuy();
             $fb->uid = auth()->user()->id;
-            $fb->save();
-        } else {
-            $fb->status = "0";
             $fb->save();
         }
 

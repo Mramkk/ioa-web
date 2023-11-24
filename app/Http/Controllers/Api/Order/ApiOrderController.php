@@ -17,7 +17,7 @@ class ApiOrderController extends Controller
     public function data()
     {
         $data = Morder::where('uid', auth()->user()->id)
-            ->latest()->with('firstBuy')->with('coupon')->with('items', function ($item) {
+            ->latest()->with('firstBuy')->with('coupon')->with('referral')->with('items', function ($item) {
                 return $item->with('plant', function ($plant) {
                     return $plant->with('img');
                 });
@@ -55,25 +55,35 @@ class ApiOrderController extends Controller
             }
         }
 
-        $datalist = Morder::where('uid', auth()->user()->id)->where('orderid', $req->orderid)->get();
-        $order = collect([]);
-        foreach ($datalist as $data) {
-            $address = Address::where('id', $data->address_id)->first();
-            $items = OrderedItem::where('orderid', $data->orderid)->get();
-            foreach ($items as $item) {
+        $data = Morder::where('uid', auth()->user()->id)
+        ->where('orderid', $req->orderid)
+        ->latest()->with('firstBuy')
+        ->with('coupon')->with('referral')
+        ->with('items', function ($item) {
+                return $item->with('plant', function ($plant) {
+                    return $plant->with('img');
+                });
+            })->get();
 
-                $plant = Plant::where('pid', $item->pid)->first();
-                $item['plant'] = $plant;
-                $img = PlantImg::where('pid', $item->pid)->where('slno', '1')->where('type', 'md')->first();
-                $plant['img'] = $img;
-            }
-            $data['address'] = $address;
-            $data['items'] = $items;
+        // $datalist = Morder::where('uid', auth()->user()->id)->where('orderid', $req->orderid)->get();
+        // $order = collect([]);
+        // foreach ($datalist as $data) {
+        //     $address = Address::where('id', $data->address_id)->first();
+        //     $items = OrderedItem::where('orderid', $data->orderid)->get();
+        //     foreach ($items as $item) {
+
+        //         $plant = Plant::where('pid', $item->pid)->first();
+        //         $item['plant'] = $plant;
+        //         $img = PlantImg::where('pid', $item->pid)->where('slno', '1')->where('type', 'md')->first();
+        //         $plant['img'] = $img;
+        //     }
+        //     $data['address'] = $address;
+        //     $data['items'] = $items;
 
 
-            $order->push($data);
-        }
+        //     $order->push($data);
+        // }
 
-        return ApiRes::data($order);
+        return ApiRes::data($data);
     }
 }

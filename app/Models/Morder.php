@@ -15,11 +15,15 @@ class Morder extends Model
     }
     public function firstBuy()
     {
-        return $this->hasMany(FirstBuy::class,  'uid', 'uid')->where('status', '1');
+        return $this->hasMany(FirstBuy::class,  'id', 'first_buy_id');
     }
     public function coupon()
     {
         return $this->hasMany(Coupon::class,  'id', 'coupon_id');
+    }
+    public function referral()
+    {
+        return $this->hasMany(ReferralCommission::class,  'id', 'referral_id');
     }
     public function address()
     {

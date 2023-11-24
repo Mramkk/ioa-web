@@ -96,7 +96,7 @@ class AdminOrderController extends Controller
             // $datalist['address'] = $address;
 
             $datalist = Morder::where('orderid', $req->id)
-                ->latest()->with('address')->with('firstBuy')->with('coupon')->with('items', function ($item) {
+                ->latest()->with('address')->with('firstBuy')->with('coupon')->with('referral')->with('items', function ($item) {
                     return $item->with('plant');
                 })->get();
 

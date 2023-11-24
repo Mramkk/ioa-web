@@ -12,7 +12,6 @@ use App\Models\Morder;
 use App\Models\Mpayment;
 use App\Models\OrderedItem;
 use App\Models\Plant;
-use App\Models\ReferralCommission;
 use App\Models\Userdetail;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
@@ -95,7 +94,6 @@ class ApiRazorpayController extends Controller
             $obj->orderid = $orderid;
             $obj->pid = $item->pid;
             $obj->coupon_code = $item->coupon_code;
-            $obj->referral_com_id = $item->referral_com_id;
             $obj->qty = $item->qty;
             $obj->shipping_charges = $item->shipping_charges;
             $status = $obj->save();
@@ -128,47 +126,6 @@ class ApiRazorpayController extends Controller
         //     $obj->status = "Confirmed";
         //     $status = $obj->save();
         // }
-        // checking first buy or not
-
-
-        $addressId = Address::where('uid', auth()->user()->uid)->where('active', '1')->first()->id;
-        $obj = new Morder();
-        $obj->uid = auth()->user()->id;
-        $obj->orderid = $orderid;
-        $obj->address_id = $addressId;
-        $obj->payment_id = $req->payment_id;
-        $obj->total_amt = ($pay->amount / 100);
-        $obj->status = "Confirmed";
-        $status = $obj->save();
-
-        // order Update
-
-        $count = Morder::where('uid', auth()->user()->id)->get()->count();
-        $fb = FirstBuy::where('uid', auth()->user()->id)->where('status', '1')->first();
-        if ($count == 1 && $fb != null) {
-            $fb->status = "0";
-            $status = $fb->save();
-            $morder =  Morder::where('uid', auth()->user()->id)->first();
-            $morder->first_buy_id = $fb->id;
-            $status =  $morder->save();
-        }
-
-        $couponCode = OrderedItem::where('uid', auth()->user()->id)->where('orderid', $orderid)->first()->coupon_code;
-        if ($couponCode != null) {
-            $coupon = Coupon::where('code', $couponCode)->where('status', '1')->first();
-            $morder =  Morder::where('uid', auth()->user()->id)->where('orderid', $orderid)->first();
-            $morder->coupon_id = $coupon->id;
-            $status = $morder->save();
-        }
-        $rfComId = OrderedItem::where('uid', auth()->user()->id)->where('orderid', $orderid)->first()->referral_com_id;
-        if ($rfComId != null) {
-            $rfcom = ReferralCommission::where('id', $rfComId)->where('uid', auth()->user()->id)->where('apply', '1')->first();
-            $morder =  Morder::where('uid', auth()->user()->id)->where('orderid', $orderid)->first();
-            $morder->referral_id = $rfcom->id;
-            $status = $morder->save();
-        }
-
-
 
 
 

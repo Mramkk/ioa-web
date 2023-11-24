@@ -9,6 +9,7 @@ class Cart extends Model
 {
     use HasFactory;
 
+
     public function plant()
     {
         return $this->hasOne(Plant::class, 'pid', 'pid');
@@ -16,6 +17,10 @@ class Cart extends Model
     public function coupon()
     {
         return $this->hasMany(Coupon::class, 'code', 'coupon_code');
+    }
+    public function referral()
+    {
+        return $this->hasMany(ReferralCommission::class, 'id', 'referral_com_id');
     }
     public function firstBuy()
     {

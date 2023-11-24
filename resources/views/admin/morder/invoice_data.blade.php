@@ -306,6 +306,11 @@
                         <td colspan="2"></td>
                         <td colspan="3">Coupon {{ $datalist->first()->coupon->first()->discount }} % Discount </td>
                         <td>- ₹ {{ $totalAmt * ($datalist->first()->coupon->first()->discount / 100) }}</td>
+                    @elseif ($datalist->first()->referral->count() > 0)
+                        <td colspan="2"></td>
+                        <td colspan="3">Referral {{ $datalist->first()->referral->first()->discount }} % Discount
+                        </td>
+                        <td>- ₹ {{ $totalAmt * ($datalist->first()->referral->first()->discount / 100) }}</td>
                     @endif
 
                 </tr>
