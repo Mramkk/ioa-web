@@ -15,8 +15,6 @@
         <!-- title-bar -->
         @include('admin.includes.title-bar')
 
-       
-
         <div class="row">
 
             <div class="col-md-3">
