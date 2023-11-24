@@ -63,10 +63,6 @@ class AdminNurserySliderController extends Controller
             $status = $obj->save();
         }
 
-
-
-
-
         if ($status) {
             return redirect()->back()->with('success', 'Data saved successfully !');
         } else {

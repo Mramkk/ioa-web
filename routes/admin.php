@@ -144,6 +144,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::controller(AdminOrderController::class)->group(function () {
         Route::get('/morder', 'index')->name('admin.order.index');
         Route::get('/morder/{id}', 'byId');
+        Route::post('/morder/{id}', 'sendMail');
     });
     Route::controller(AdminPaymentController::class)->group(function () {
         Route::get('/mpayments', 'mpayments')->name('admin.payment.mpayments');
