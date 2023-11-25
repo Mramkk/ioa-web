@@ -67,8 +67,7 @@ class AdminOrderController extends Controller
 
     public function sendMail(Request $req)
     {
-        if($req->action == 'SEND_INVOICE')
-        {
+        if ($req->action == 'SEND_INVOICE') {
             $x = new EasyData;
             $x->request = $req;
             $datalist = Morder::where('orderid', $req->id)
