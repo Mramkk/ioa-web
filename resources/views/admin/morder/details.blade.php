@@ -50,7 +50,7 @@
                         <h1>Order Invoice</h1>
                         <div class="mb-3">
                             <select class="form-select" name="invoice_action">
-                                <option value="stream">Open</option>
+                                {{-- <option value="stream">Open</option> --}}
                                 <option value="download">Download</option>
                                 <option value="send_to_user">Send to User</option>
                             </select>
