@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2023 at 08:30 AM
+-- Generation Time: Nov 24, 2023 at 01:13 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -80,22 +80,13 @@ CREATE TABLE `carts` (
   `id` bigint(20) NOT NULL,
   `uid` bigint(20) NOT NULL,
   `coupon_code` varchar(255) DEFAULT NULL,
+  `referral_com_id` varchar(255) DEFAULT NULL,
   `pid` varchar(225) NOT NULL,
   `qty` tinyint(11) NOT NULL DEFAULT 1,
   `shipping_charges` decimal(10,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `carts`
---
-
-INSERT INTO `carts` (`id`, `uid`, `coupon_code`, `pid`, `qty`, `shipping_charges`, `created_at`, `updated_at`) VALUES
-(62, 27, NULL, '651e9453751d5', 1, 65.00, '2023-10-06 21:43:45', '2023-10-06 21:43:45'),
-(63, 33, NULL, '650a9e7e54848', 1, 65.00, '2023-10-06 21:57:00', '2023-10-06 21:57:00'),
-(64, 33, NULL, '64e451916feb6', 1, 65.00, '2023-10-06 21:57:12', '2023-10-06 21:57:12'),
-(300, 30, NULL, '650aa69e4e181', 1, 65.00, '2023-11-18 12:22:20', '2023-11-18 12:22:20');
 
 -- --------------------------------------------------------
 
@@ -222,7 +213,7 @@ CREATE TABLE `first_buys` (
 --
 
 INSERT INTO `first_buys` (`id`, `uid`, `title`, `description`, `discount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 30, NULL, NULL, 20.00, '0', '2023-11-16 10:06:19', '2023-11-18 07:43:49');
+(1, 30, NULL, NULL, 20.00, '0', '2023-11-24 12:03:32', '2023-11-24 12:03:51');
 
 -- --------------------------------------------------------
 
@@ -579,7 +570,9 @@ CREATE TABLE `morders` (
   `address_id` bigint(225) NOT NULL,
   `orderid` varchar(225) NOT NULL,
   `payment_id` varchar(225) NOT NULL,
+  `first_buy_id` varchar(255) DEFAULT NULL,
   `coupon_id` varchar(225) DEFAULT NULL,
+  `referral_id` varchar(255) DEFAULT NULL,
   `total_amt` decimal(10,2) NOT NULL,
   `status` varchar(225) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -590,9 +583,10 @@ CREATE TABLE `morders` (
 -- Dumping data for table `morders`
 --
 
-INSERT INTO `morders` (`id`, `uid`, `address_id`, `orderid`, `payment_id`, `coupon_id`, `total_amt`, `status`, `created_at`, `updated_at`) VALUES
-(1, 30, 89, 'OGD0001', 'pay_N1uHFk5sGJf9VG', NULL, 191.00, 'Confirmed', '2023-11-18 10:38:46', '2023-11-18 10:38:46'),
-(2, 30, 89, 'OGD0002', 'pay_N1uJvjHrQKhpYl', '1', 292.50, 'Confirmed', '2023-11-18 10:41:18', '2023-11-18 10:41:18');
+INSERT INTO `morders` (`id`, `uid`, `address_id`, `orderid`, `payment_id`, `first_buy_id`, `coupon_id`, `referral_id`, `total_amt`, `status`, `created_at`, `updated_at`) VALUES
+(1, 30, 89, 'OGD0001', 'pay_N4Ivt8PX7lS2Ti', '1', NULL, NULL, 184.00, 'Confirmed', '2023-11-24 12:03:51', '2023-11-24 12:03:51'),
+(2, 30, 89, 'OGD0002', 'pay_N4IxvYBPNoCxDh', NULL, '1', NULL, 305.10, 'Confirmed', '2023-11-24 12:05:48', '2023-11-24 12:05:48'),
+(3, 30, 89, 'OGD0003', 'pay_N4J09LVZmsWAst', NULL, NULL, '1', 548.10, 'Confirmed', '2023-11-24 12:07:54', '2023-11-24 12:07:54');
 
 -- --------------------------------------------------------
 
@@ -621,8 +615,9 @@ CREATE TABLE `mpayments` (
 --
 
 INSERT INTO `mpayments` (`id`, `uid`, `payment_id`, `order_id`, `email`, `contact`, `amount`, `method`, `currency`, `status`, `captured`, `created_at`, `updated_at`) VALUES
-(1, 30, 'pay_N1uHFk5sGJf9VG', 'order_N1uH5mMGf2Kxas', 'jisramkumarbedia@gmail.com', '+919771537376', 191.00, 'netbanking', 'INR', 'captured', '1', '2023-11-18 10:38:46', '2023-11-18 10:38:46'),
-(2, 30, 'pay_N1uJvjHrQKhpYl', 'order_N1uJp8ZoR6jf5M', 'jisramkumarbedia@gmail.com', '+919771537376', 292.50, 'netbanking', 'INR', 'captured', '1', '2023-11-18 10:41:17', '2023-11-18 10:41:17');
+(1, 30, 'pay_N4Ivt8PX7lS2Ti', 'order_N4IvlRhqjFzDO8', 'jisramkumarbedia@gmail.com', '+919771537376', 184.00, 'netbanking', 'INR', 'captured', '1', '2023-11-24 12:03:51', '2023-11-24 12:03:51'),
+(2, 30, 'pay_N4IxvYBPNoCxDh', 'order_N4Ixnnm4t0WjT0', 'jisramkumarbedia@gmail.com', '+919771537376', 305.10, 'netbanking', 'INR', 'captured', '1', '2023-11-24 12:05:48', '2023-11-24 12:05:48'),
+(3, 30, 'pay_N4J09LVZmsWAst', 'order_N4J00ofMn9TlKg', 'jisramkumarbedia@gmail.com', '+919771537376', 548.10, 'netbanking', 'INR', 'captured', '1', '2023-11-24 12:07:54', '2023-11-24 12:07:54');
 
 -- --------------------------------------------------------
 
@@ -876,6 +871,7 @@ CREATE TABLE `ordered_items` (
   `orderid` varchar(225) NOT NULL,
   `pid` varchar(225) NOT NULL,
   `coupon_code` varchar(255) DEFAULT NULL,
+  `referral_com_id` varchar(255) DEFAULT NULL,
   `qty` int(11) NOT NULL,
   `shipping_charges` decimal(10,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -886,9 +882,13 @@ CREATE TABLE `ordered_items` (
 -- Dumping data for table `ordered_items`
 --
 
-INSERT INTO `ordered_items` (`id`, `uid`, `orderid`, `pid`, `coupon_code`, `qty`, `shipping_charges`, `created_at`, `updated_at`) VALUES
-(1, 30, 'OGD0001', '650aa69e4e181', NULL, 1, 65.00, '2023-11-18 10:38:46', '2023-11-18 10:38:46'),
-(2, 30, 'OGD0002', '651e8ea13fde8', 'mJBQQLwA7ijE', 1, 65.00, '2023-11-18 10:41:18', '2023-11-18 10:41:18');
+INSERT INTO `ordered_items` (`id`, `uid`, `orderid`, `pid`, `coupon_code`, `referral_com_id`, `qty`, `shipping_charges`, `created_at`, `updated_at`) VALUES
+(1, 30, 'OGD0001', '651e9453751d5', NULL, NULL, 1, 65.00, '2023-11-24 12:03:51', '2023-11-24 12:03:51'),
+(2, 30, 'OGD0002', '651e94b4b10b1', 'mJBQQLwA7ijE', NULL, 1, 65.00, '2023-11-24 12:05:48', '2023-11-24 12:05:48'),
+(3, 30, 'OGD0002', '651e9453751d5', 'mJBQQLwA7ijE', NULL, 1, 65.00, '2023-11-24 12:05:48', '2023-11-24 12:05:48'),
+(4, 30, 'OGD0003', '651e94b4b10b1', NULL, '1', 1, 65.00, '2023-11-24 12:07:54', '2023-11-24 12:07:54'),
+(5, 30, 'OGD0003', '651e9453751d5', NULL, '1', 1, 65.00, '2023-11-24 12:07:54', '2023-11-24 12:07:54'),
+(6, 30, 'OGD0003', '651e93a00eabd', NULL, '1', 1, 65.00, '2023-11-24 12:07:54', '2023-11-24 12:07:54');
 
 -- --------------------------------------------------------
 
@@ -1303,7 +1303,8 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (319, 'App\\Models\\User', 30, '9771537376', '61c05fd0a7e9e59876aaae07bf0716e35b9b4f4d9f561d53f9c35fb48c0c4d77', '[\"*\"]', '2023-11-06 23:29:12', '2023-11-06 23:03:39', '2023-11-06 23:29:12'),
 (320, 'App\\Models\\User', 27, '6209009007', '260e3f82f614171f6b7c3fd0b4d822f2e60fdc7babf8144f93ede9983f960279', '[\"*\"]', '2023-11-06 23:29:16', '2023-11-06 23:27:15', '2023-11-06 23:29:16'),
 (322, 'App\\Models\\User', 30, '9771537376', '79ec549ddb2ed2426f78c0a72e367d1f6b9a84a57d81728a1c8a2e891e6f90a1', '[\"*\"]', '2023-11-07 15:35:25', '2023-11-07 15:35:12', '2023-11-07 15:35:25'),
-(324, 'App\\Models\\User', 30, '9771537376', 'c9e80780d6bcc89e83ffe3ea112540baa38b9606cd0d98ec2b6daabf8549526a', '[\"*\"]', '2023-11-22 06:01:03', '2023-11-08 10:43:21', '2023-11-22 06:01:03');
+(324, 'App\\Models\\User', 30, '9771537376', 'c9e80780d6bcc89e83ffe3ea112540baa38b9606cd0d98ec2b6daabf8549526a', '[\"*\"]', '2023-11-24 11:56:20', '2023-11-08 10:43:21', '2023-11-24 11:56:20'),
+(327, 'App\\Models\\User', 30, '9771537376', '4d2bcb362e006ce467816211b6b3d409063d6a87e72d1938e7ab0443ce065ba1', '[\"*\"]', '2023-11-24 12:07:55', '2023-11-22 12:15:16', '2023-11-24 12:07:55');
 
 -- --------------------------------------------------------
 
@@ -2681,6 +2682,56 @@ INSERT INTO `recommended_fertilizers` (`id`, `pid`, `fertilizer_id`, `created_at
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `referrals`
+--
+
+CREATE TABLE `referrals` (
+  `id` bigint(20) NOT NULL,
+  `uid` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `referrals`
+--
+
+INSERT INTO `referrals` (`id`, `uid`, `name`, `phone`, `status`, `created_at`, `updated_at`) VALUES
+(1, '30', 'Barun JIS', '918002405646', '0', '2023-11-22 12:18:13', '2023-11-24 06:13:17'),
+(2, '30', 'Ajay Gate', '916201794686', '0', '2023-11-24 06:07:11', '2023-11-24 06:13:17'),
+(3, '30', 'Ajay Hethku', '917488335462', '0', '2023-11-24 06:11:11', '2023-11-24 06:13:17'),
+(4, '30', 'Ahmedabad HR', '919824773136', '0', '2023-11-24 06:12:57', '2023-11-24 06:13:17'),
+(5, '30', 'Ajit M', '919608733308', '0', '2023-11-24 06:13:16', '2023-11-24 06:13:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referral_commissions`
+--
+
+CREATE TABLE `referral_commissions` (
+  `id` bigint(20) NOT NULL,
+  `uid` varchar(255) NOT NULL,
+  `discount` decimal(4,2) NOT NULL,
+  `apply` enum('0','1') NOT NULL DEFAULT '0',
+  `status` enum('0','1') NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `referral_commissions`
+--
+
+INSERT INTO `referral_commissions` (`id`, `uid`, `discount`, `apply`, `status`, `created_at`, `updated_at`) VALUES
+(1, '30', 10.00, '1', '0', '2023-11-24 06:13:17', '2023-11-24 12:07:32');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shipping_charges`
 --
 
@@ -3257,6 +3308,18 @@ ALTER TABLE `recommended_fertilizers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `referrals`
+--
+ALTER TABLE `referrals`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `referral_commissions`
+--
+ALTER TABLE `referral_commissions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `shipping_charges`
 --
 ALTER TABLE `shipping_charges`
@@ -3331,7 +3394,7 @@ ALTER TABLE `addresses`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -3397,13 +3460,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `morders`
 --
 ALTER TABLE `morders`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mpayments`
 --
 ALTER TABLE `mpayments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mplants`
@@ -3433,7 +3496,7 @@ ALTER TABLE `nursery_sliders`
 -- AUTO_INCREMENT for table `ordered_items`
 --
 ALTER TABLE `ordered_items`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -3457,7 +3520,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=328;
 
 --
 -- AUTO_INCREMENT for table `placed_orders`
@@ -3500,6 +3563,18 @@ ALTER TABLE `products`
 --
 ALTER TABLE `recommended_fertilizers`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `referrals`
+--
+ALTER TABLE `referrals`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `referral_commissions`
+--
+ALTER TABLE `referral_commissions`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shipping_charges`
