@@ -17,7 +17,7 @@ class ApiOrderController extends Controller
     public function data()
     {
         $data = Morder::where('uid', auth()->user()->id)
-            ->latest()->with('firstBuy')->with('coupon')->with('referral')->with('items', function ($item) {
+            ->latest()->with('address')->with('firstBuy')->with('coupon')->with('referral')->with('items', function ($item) {
                 return $item->with('plant', function ($plant) {
                     return $plant->with('img');
                 });
@@ -56,10 +56,10 @@ class ApiOrderController extends Controller
         }
 
         $data = Morder::where('uid', auth()->user()->id)
-        ->where('orderid', $req->orderid)
-        ->latest()->with('firstBuy')
-        ->with('coupon')->with('referral')
-        ->with('items', function ($item) {
+            ->where('orderid', $req->orderid)
+            ->latest()->with('address')->with('firstBuy')
+            ->with('coupon')->with('referral')
+            ->with('items', function ($item) {
                 return $item->with('plant', function ($plant) {
                     return $plant->with('img');
                 });
