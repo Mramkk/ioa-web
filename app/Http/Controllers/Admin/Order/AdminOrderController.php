@@ -31,6 +31,7 @@ class AdminOrderController extends Controller
 
     public function byId(Request $req)
     {
+        // download invoice 
         if ($req->invoice_action == 'download') {
             $datalist = Morder::where('orderid', $req->id)
                 ->latest()->with('address')->with('firstBuy')->with('coupon')->with('referral')->with('items', function ($item) {
@@ -65,6 +66,7 @@ class AdminOrderController extends Controller
         return  view('admin.morder.details', compact('datalist'));
     }
 
+    // change status 
     public function changeStatus(Request $req)
     {
         $x = new EasyData;
@@ -90,6 +92,7 @@ class AdminOrderController extends Controller
         return $x->json_output();
     }
 
+    // send invoice via mail 
     public function sendMail(Request $req)
     {
         if ($req->action == 'SEND_INVOICE') {
