@@ -12,7 +12,7 @@ class ApiReferralCommissionController extends Controller
 {
     public function data()
     {
-        $data = ReferralCommission::where('apply', '0')->where('status', '1')->latest()->get();
+        $data = ReferralCommission::where('uid', auth()->user()->id)->where('apply', '0')->where('status', '1')->latest()->get();
         return ApiRes::data($data);
     }
     public function apply(Request $req)

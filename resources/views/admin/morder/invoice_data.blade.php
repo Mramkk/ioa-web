@@ -270,7 +270,7 @@
                     @php
                         $totalShippingAmt += $data->shipping_charges;
                         $subTotalAmt += $data->plant->selling_price * $data->qty;
-                        $totalAmt += $subTotalAmt + $totalShippingAmt;
+                        $totalAmt = $subTotalAmt + $totalShippingAmt;
                     @endphp
 
                     <tr>
@@ -300,7 +300,8 @@
 
                     @if ($datalist->first()->firstBuy->count() > 0)
                         <td colspan="2"></td>
-                        <td colspan="3">First Buy 20 % Discount </td>
+                        <td colspan="3">First Buy {{ $datalist->first()->firstBuy->first()->discount }} % Discount
+                        </td>
                         <td>- ₹ {{ $totalAmt * ($datalist->first()->firstBuy->first()->discount / 100) }}</td>
                     @elseif ($datalist->first()->coupon->count() > 0)
                         <td colspan="2"></td>

@@ -13,7 +13,7 @@ class ApiReferralController extends Controller
 {
     public function data()
     {
-        $data = Referral::latest()->get();
+        $data = Referral::where('uid', auth()->user()->id)->latest()->get();
         return ApiRes::data($data);
     }
     public function save(Request $req)
