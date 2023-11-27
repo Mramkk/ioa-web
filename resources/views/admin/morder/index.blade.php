@@ -108,22 +108,7 @@
                                                     <input id="status4" name="status" type="radio" value="cancelled">
                                                     <label class="variant__size--value red" for="status4">Cancelled</label>
                                                 </li>
-                                                {{-- <li class="variant__size--list">
-                                                    <input id="status5" name="status" type="radio" value="refunded">
-                                                    <label class="variant__size--value red" for="status5">Refunded</label>
-                                                </li>
-                                                <li class="variant__size--list my-2">
-                                                    <input id="status6" name="status" type="radio"
-                                                        value="payment pending">
-                                                    <label class="variant__size--value red" for="status6">Payment
-                                                        Pending</label>
-                                                </li>
-                                                <li class="variant__size--list">
-                                                    <input id="status7" name="status" type="radio"
-                                                        value="payment failed">
-                                                    <label class="variant__size--value red" for="status7">Payment
-                                                        Failed</label>
-                                                </li> --}}
+                                                
                                             </ul>
                                             <button type="button" id="save_sts_btn"
                                                 class="btn btn-primary fs-4 mt-2 w-100" style="width: 14rem">
@@ -157,7 +142,7 @@
             $(document).on('click', '#save_sts_btn', function() {
                 var x = new Ajx;
                 x.form = '#status_form';
-                x.actionUrl('{{ route($route_name . '.store') }}');
+                x.actionUrl("{{ url('admin/morder/status') . '/' . $data->id }}");
                 x.globalAlert(true);
                 x.disableBtn('#save_sts_btn');
                 x.ajxLoader('#save_sts_btn .loaderx');
