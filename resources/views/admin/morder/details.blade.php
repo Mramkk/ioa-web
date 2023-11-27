@@ -176,6 +176,22 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
+
+        // Change Order Status
+        $(document).on('click', '#status_btn', function() {
+                var x = new Ajx;
+                x.form = '#status_form';
+                x.actionUrl("{{ url('admin/morder/status') . '/' . $datalist->orderid }}");
+                x.globalAlert(true);
+                x.disableBtn('#status_btn');
+                x.ajxLoader('#status_btn .loaderx');
+                x.start(function(response) {
+                    // if (response.status == true) {
+                    //     location.reload();
+                    // }
+                });
+            });
+
             // Order Invoice
             $(document).on('click', '#invoice_btn', function() {
                 var invoice_action = $('#invoice_form select').val();

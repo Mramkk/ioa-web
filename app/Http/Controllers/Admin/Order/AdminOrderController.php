@@ -65,6 +65,31 @@ class AdminOrderController extends Controller
         return  view('admin.morder.details', compact('datalist'));
     }
 
+    public function changeStatus(Request $req)
+    {
+        $x = new EasyData;
+        $x->request = $req;
+        $x->model = Morder::find($req->id);
+        if (!empty($x->model)) {
+            if (!empty($req->status)) {
+                $req->status = strtolower($req->status);
+                $s = $x->model->status;
+                if ($s != 'completed' and $s != 'cancelled' and $s != 'refunded') {
+                    $x->data('status', 'status', 'required|string');
+                    if ($x->save()) {
+                        $x->status(true);
+                        $x->message('Status Updated Successfully');
+                    }
+                } else {
+                    $x->message('Action not allowed..!');
+                }
+            }
+        } else {
+            $x->message('Something Error...!');
+        }
+        return $x->json_output();
+    }
+
     public function sendMail(Request $req)
     {
         if ($req->action == 'SEND_INVOICE') {
