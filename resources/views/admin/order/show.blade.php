@@ -277,9 +277,7 @@
                     x.ajxLoader('#invoice_btn .loaderx');
                     x.start();
                 }
-
             });
-
         });
     </script>
 @endsection
