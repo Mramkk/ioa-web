@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Order;
 
+use App\Exports\MordersDataExport;
 use App\Helpers\Classes\EasyData;
 use App\Http\Controllers\Controller;
 use App\Mail\SendInvoice2;
@@ -11,6 +12,7 @@ use App\Models\OrderedItem;
 use App\Models\Plant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
 class AdminOrderController extends Controller

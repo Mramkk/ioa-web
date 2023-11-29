@@ -17,7 +17,7 @@
             $dummy_image = asset('assets/img/other/order-list-2.png');
         @endphp
         @include('admin.includes.title-bar-I')
-
+        
         <div class="cart__table">
             <table class="cart__table--inner">
                 {!! Hpx::table_headings(['Order', 'Payment Id', 'Total Amt', 'status', 'Action']) !!}
