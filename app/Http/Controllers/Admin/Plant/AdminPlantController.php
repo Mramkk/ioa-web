@@ -269,7 +269,7 @@ class AdminPlantController extends Controller
                 unlink($img->image);
                 $status =  $img->delete();
             }
-            Image::make($req->image1->getRealPath())->resize('480', '360')->save($path . $picName);
+            Image::make($req->image1->getRealPath())->resize('480', '480')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '1';
@@ -278,7 +278,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image1->getRealPath())->resize('640', '480')->save($path . $picName);
+            Image::make($req->image1->getRealPath())->resize('740', '780')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '1';
@@ -301,7 +301,7 @@ class AdminPlantController extends Controller
                 $status =  $img->delete();
             }
             $picName =  uniqid() . ".webp";
-            Image::make($req->image2->getRealPath())->resize('480', '360')->save($path . $picName);
+            Image::make($req->image2->getRealPath())->resize('480', '480')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '2';
@@ -310,7 +310,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
+            Image::make($req->image2->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '2';
@@ -333,7 +333,7 @@ class AdminPlantController extends Controller
                 $status =  $img->delete();
             }
             $picName =  uniqid() . ".webp";
-            Image::make($req->image3->getRealPath())->resize('480', '360')->save($path . $picName);
+            Image::make($req->image3->getRealPath())->resize('480', '480')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '3';
@@ -342,7 +342,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image3->getRealPath())->resize('640', '480')->save($path . $picName);
+            Image::make($req->image3->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '3';
