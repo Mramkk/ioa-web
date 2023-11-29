@@ -12,7 +12,7 @@
             $tbx['btn-name'] = 'Add';
             $tbx['btn-link'] = route('admin.mplant.create');
             $tbx['search-bar'] = true;
-            
+
             $route_name = 'category';
             $dir_name = 'category';
             $dummy_image = asset('assets/img/other/select-image.jpg');
@@ -82,6 +82,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="col-12 links-border">
+                {{ $data->OnEachSide(5)->links() }}
+            </div>
         </div>
     </div>
 

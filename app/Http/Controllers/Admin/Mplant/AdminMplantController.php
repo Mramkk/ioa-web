@@ -16,10 +16,21 @@ class AdminMplantController extends Controller
 {
     private  $iconPath = 'public/img/mplant/icon/';
     private  $imgPath = 'public/img/mplant/';
-    public function index()
+    public function index(Request $req)
     {
-        $data = Mplant::latest()->get();
+        // $data = Mplant::latest()->get();
+        // return view('admin.mplant.index', compact('data'));
+        $data = null;
+        if (!empty($req->q)) {
+            $search = $req->q;
+            $data = Mplant::where('title', 'LIKE', '%' . $search . '%')
+                ->orWhere('category', 'LIKE', '%' . $search . '%');
+        } else {
+            $data = Mplant::orderBy('id', 'DESC');
+        }
+        $data =   $data->paginate(50);
         return view('admin.mplant.index', compact('data'));
+        // return view('admin.plant.index', compact('data'));
     }
     public function create()
     {
