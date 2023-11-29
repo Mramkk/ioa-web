@@ -278,7 +278,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image1->getRealPath())->resize('740', '780')->save($path . $picName);
+            Image::make($req->image1->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '1';
