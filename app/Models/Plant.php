@@ -21,7 +21,7 @@ class Plant extends Model
 
     public function imglg()
     {
-        return $this->hasMany(PlantImg::class, 'pid', 'pid')->orderBy('slno')->where('type', 'lg');
+        return $this->hasMany(PlantImg::class, 'pid', 'pid')->orderBy('slno')->where('type', 'md');
     }
     public function recommended()
     {
