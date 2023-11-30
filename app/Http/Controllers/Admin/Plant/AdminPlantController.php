@@ -28,11 +28,11 @@ class AdminPlantController extends Controller
         $data2 = RecommendedFertilizer::where('pid', $req->id)->get(['fertilizer_id']);
         return ApiRes::doubleData($data1, $data2);
     }
-    public function index(Request $request)
+    public function index(Request $req)
     {
         $data_list = '';
-        if (!empty($request->q)) {
-            $search = $request->q;
+        if (!empty($req->q)) {
+            $search = $req->q;
             $data_list = Plant::where('title', 'LIKE', '%' . $search . '%')
                 ->orWhere('sub_category', 'LIKE', '%' . $search . '%');
         } else {
@@ -40,7 +40,7 @@ class AdminPlantController extends Controller
         }
         $data_list =   $data_list->with('img')->paginate(50);
 
-        return view('admin.plant.index', compact('data_list'));
+        return view('admin.plant.index', compact('data_list', 'req'));
     }
     public function create()
     {

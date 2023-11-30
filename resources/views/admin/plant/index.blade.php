@@ -13,7 +13,7 @@
             $tbx['btn-name'] = 'Add';
             $tbx['btn-link'] = route('admin.plant.create');
             $tbx['search-bar'] = true;
-            
+
             $route_name = 'product';
             $dir_name = 'product';
             $dummy_image = asset('assets/img/other/select-image.jpg');
@@ -83,9 +83,12 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="col-12 links-border">
-                {{ $data_list->OnEachSide(5)->links() }}
-            </div>
+            @if ($req->q == null)
+                <div class="col-12 links-border">
+                    {{ $data_list->OnEachSide(5)->links() }}
+                </div>
+            @endif
+
         </div>
     </div>
 
