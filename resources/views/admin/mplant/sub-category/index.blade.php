@@ -80,6 +80,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="col-12 links-border"> 
+                {{$data->OnEachSide(5)->links()}}
+            </div>
         </div>
     </div>
 

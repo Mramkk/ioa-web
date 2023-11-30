@@ -13,9 +13,17 @@ use Intervention\Image\Facades\Image;
 class AdminMplantSubCategoryController extends Controller
 {
     private  $path = 'public/img/mplant/sub-category/';
-    public function index()
+    public function index(Request $request)
     {
-        $data = MplantSubCategory::all();
+        $data = '';
+        if(!empty($request->q)){
+            $search = $request->q;
+            $data = MplantSubCategory::where('sub_category','LIKE','%'.$search.'%')
+            ->orWhere('category','LIKE','%'.$search.'%')->paginate(10);
+        }else{
+            $data = MplantSubCategory::paginate(10);
+        }
+        
         return view('admin.mplant.sub-category.index', compact('data'));
     }
 
