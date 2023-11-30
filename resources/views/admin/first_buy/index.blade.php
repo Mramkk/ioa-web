@@ -14,9 +14,9 @@
 
         @php
             $tbx['tb'] = 1;
-            $tbx['title'] = 'Coupon List';
+            $tbx['title'] = 'First Buy';
             $tbx['btn-name'] = 'Add';
-            $tbx['btn-link'] = route('admin.coupon.create');
+            $tbx['btn-link'] = route('admin.first_buy.create');
             $tbx['search-bar'] = true;
 
             $route_name = 'slider';
@@ -30,7 +30,6 @@
                 <thead class="cart__table--header">
                     <tr class="cart__table--header__items">
                         <th class="cart__table--header__list">Title</th>
-                        <th class="cart__table--header__list">Coupon code</th>
                         <th class="cart__table--header__list">Discount</th>
                         <th class="cart__table--header__list">Status</th>
 
@@ -50,12 +49,8 @@
                                         <h3 class="cart__content--title h4">
                                             <a href="#">{{ Str::words($data->title) }}</a>
                                         </h3>
-
                                     </div>
                                 </div>
-                            </td>
-                            <td class="cart__table--body__list">
-                                {{ $data->code }}
                             </td>
                             <td class="cart__table--body__list">
                                 {{ $data->discount }} %
@@ -78,7 +73,7 @@
                             <td class="cart__table--body__list text-right">
                                 <div class="btn-groupx" role="group" aria-label="Action">
                                     <a class="btn btn-sm fs-4 btn-outline-secondary"
-                                        href="{{ route('admin.coupon.edit', $data->id) }}">Edit</a>
+                                        href="{{ route('admin.first_buy.edit', $data->id) }}">Edit</a>
                                     <a id="{{ $data->id }}" class="btn btn-sm btn-outline-danger fs-4"
                                         onclick="deleteItem(this.id)">Delete</a>
                                 </div>
@@ -103,7 +98,7 @@
                 "_token": "{{ csrf_token() }}",
                 "id": id
             };
-            let req = api.setData("{{ route('admin.coupon.status') }}", data);
+            let req = api.setData("{{ route('admin.first_buy.status') }}", data);
             req.then((res) => {
                 if (res.status == true) {
 
@@ -117,29 +112,6 @@
             });
         }
 
-        function reorder(event, id) {
-            if (event.keyCode == 13) {
-
-                var data = {
-                    "_token": "{{ csrf_token() }}",
-                    "id": id,
-                    "order_no": event.target.value
-                };
-                let req = api.setData("{{ route('admin.mslider.reorder') }}", data);
-                req.then((res) => {
-                    if (res.status == true) {
-
-                        alert(res.message);
-                        location.reload();
-                    } else {
-                        alert(res.message);
-                        location.reload();
-                    }
-                });
-            }
-
-        }
-
         function deleteItem(id) {
             var data = {
                 "_token": "{{ csrf_token() }}",
@@ -150,7 +122,7 @@
             );
 
 
-            let req = api.setData("{{ route('admin.coupon.delete') }}", data);
+            let req = api.setData("{{ route('admin.first_buy.delete') }}", data);
             $("#" + id).attr("disabled", true);
             req.then((res) => {
                 if (res.status == true) {

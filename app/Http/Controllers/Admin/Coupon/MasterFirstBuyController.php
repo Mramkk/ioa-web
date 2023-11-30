@@ -1,90 +1,94 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Mplant\SubCategory;
+namespace App\Http\Controllers\Admin\Coupon;
 
-use App\Helpers\ApiRes;
 use App\Http\Controllers\Controller;
-use App\Models\MplantCategory;
-use App\Models\MplantSubCategory;
+use App\Models\MasterFirstBuy;
 use Illuminate\Http\Request;
+use App\Helpers\ApiRes;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
-class AdminMplantSubCategoryController extends Controller
+class MasterFirstBuyController extends Controller
 {
-    private  $path = 'public/img/mplant/sub-category/';
-    public function index(Request $request)
+    private $path = "public/img/first_buy/";
+    public function index(Request $req)
     {
-        $data = '';
-        if(!empty($request->q)){
-            $search = $request->q;
-            $data = MplantSubCategory::where('sub_category','LIKE','%'.$search.'%')
-            ->orWhere('category','LIKE','%'.$search.'%')->paginate(10);
-        }else{
-            $data = MplantSubCategory::paginate(10);
+        $datalist = null;
+        if ($req->q != null) {
+            $datalist = MasterFirstBuy::orWhere('slider_name', 'LIKE', '%' . $req->q . '%')
+                ->orWhere('title', 'LIKE', '%' . $req->q . '%');
+            return view('admin.first_buy.index', compact('datalist'));
+        } else {
+            $datalist =  MasterFirstBuy::orderBy('id', 'DESC');
+            $datalist = $datalist->paginate(50);
+            return view('admin.first_buy.index', compact('datalist'));
         }
-        
-        return view('admin.mplant.sub-category.index', compact('data'));
     }
-
     public function create()
     {
-        $cat = MplantCategory::all();
-        return view('admin.mplant.sub-category.create', compact('cat'));
+        return view('admin.first_buy.create');
     }
     public function save(Request $req)
     {
-        $status = null;
         $req->validate([
-            'category' => 'required|string|max:225',
-            'sub_category' => 'required|string|max:225',
-            'image' => 'required|image|mimes:jpeg,jpg,png',
+
+            'title' => 'required|string|max:225',
+            'discount' => 'required|numeric|between:1,50',
+
         ]);
-        $cate = new MplantSubCategory();
-        $cate->category = $req->category;
-        $cate->sub_category = $req->sub_category;
-        $cate->description = $req->description;
+        $obj = new MasterFirstBuy();
+        $obj->uid = auth()->user()->id;
+        $obj->title = $req->title;
+        $obj->description = $req->description;
+        $obj->discount = $req->discount;
+        $status = $obj->save();
+
         if ($req->hasFile('image')) {
+            $req->validate([
+                'image' => 'required|image|mimes:jpeg,jpg,png',
+
+            ]);
 
             $picName1 =  uniqid() . ".webp";
             $picName2 =  uniqid() . ".webp";
             $imgSm = $this->path . $picName1;
             $imgLg = $this->path . $picName2;
-
             Image::make($req->image->getRealPath())->resize('480', '360')->save($imgSm);
             Image::make($req->image->getRealPath())->resize('640', '480')->save($imgLg);
-            $cate->img_sm = $imgSm;
-            $cate->img_lg = $imgLg;
+
+            $obj->img_sm =  $imgSm;
+            $obj->img_lg =  $imgLg;
+            $status = $obj->save();
         }
-        $status = $cate->save();
+
         if ($status) {
             return redirect()->back()->with('success', 'Data saved successfully !');
         } else {
             return redirect()->back()->with('error', 'Error, try again later.');
         }
     }
-
-    public function edit(Request $req)
+    public function  edit(Request $req)
     {
-        $data = MplantSubCategory::where('id', $req->id)->first();
-        $cat = MplantCategory::all();
-        return view('admin.mplant.sub-category.edit', compact('data', 'cat'));
+        $data = MasterFirstBuy::where('id', $req->id)->first();
+        return view('admin.first_buy.edit', compact('data'));
     }
-    public function update(Request $req)
+    public function  update(Request $req)
     {
-        $obj = MplantSubCategory::where('id', $req->id)->first();
-        $status = null;
-        $req->validate([
-            'category' => 'required|string|max:225',
-            'sub_category' => 'required|string|max:225',
-
-        ]);
-        $obj->category = $req->category;
-        $obj->sub_category = $req->sub_category;
+        $obj = MasterFirstBuy::where('id', $req->id)->first();
+        $obj->uid = auth()->user()->id;
+        $obj->title = $req->title;
         $obj->description = $req->description;
-        $obj->status = $req->status;
+        $obj->discount = $req->discount;
+        $status = $obj->update();
 
         if ($req->hasFile('image')) {
+            $req->validate([
+                'image' => 'required|image|mimes:jpeg,jpg,png',
+
+            ]);
+
             if ($obj->img_sm != null) {
                 File::delete($obj->img_sm);
             }
@@ -96,28 +100,27 @@ class AdminMplantSubCategoryController extends Controller
             $picName2 =  uniqid() . ".webp";
             $imgSm = $this->path . $picName1;
             $imgLg = $this->path . $picName2;
-
             Image::make($req->image->getRealPath())->resize('480', '360')->save($imgSm);
             Image::make($req->image->getRealPath())->resize('640', '480')->save($imgLg);
-            $obj->img_sm = $imgSm;
-            $obj->img_lg = $imgLg;
+
+            $obj->img_sm =  $imgSm;
+            $obj->img_lg =  $imgLg;
+            $status = $obj->update();
         }
-        $status = $obj->save();
+
         if ($status) {
             return redirect()->back()->with('success', 'Data updated successfully !');
         } else {
             return redirect()->back()->with('error', 'Error, try again later.');
         }
     }
-
     public function status(Request $req)
     {
-        $obj = MplantSubCategory::Where('id', $req->id)->first();
+        $obj = MasterFirstBuy::Where('id', $req->id)->first();
         if ($obj->status == '1') {
             $obj->status = "0";
             $status = $obj->update();
             if ($status) {
-
                 return  ApiRes::success('Status Changed Successfully ! ');
             } else {
                 return  ApiRes::error();
@@ -126,20 +129,25 @@ class AdminMplantSubCategoryController extends Controller
             $obj->status = "1";
             $status = $obj->update();
             if ($status) {
-
                 return  ApiRes::success('Status Changed Successfully ! ');
             } else {
                 return  ApiRes::error();
             }
         }
     }
+
     public function delete(Request $req)
     {
-        $obj = MplantSubCategory::Where('id', $req->id)->first();
-        File::delete($obj->img_sm);
-        File::delete($obj->img_lg);
-        $status = $obj->delete();
+        $obj = MasterFirstBuy::where('id', $req->id)->first();
+        if ($obj->img_sm != null) {
+            File::delete($obj->img_sm);
+        }
+        if ($obj->img_lg != null) {
+            File::delete($obj->img_lg);
+        }
+        $status = MasterFirstBuy::where('id', $req->id)->delete();
         if ($status) {
+
             return  ApiRes::success('Data Deleted Successfully ! ');
         } else {
             return  ApiRes::error();

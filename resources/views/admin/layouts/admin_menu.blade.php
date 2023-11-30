@@ -253,6 +253,13 @@
                     <span class="widget__categories--sub__menu--text">Coupon</span>
                 </a>
             </li>
+            <li class="widget__categories--sub__menu--list">
+                <a class="widget__categories--sub__menu--link d-flex align-items-center"
+                    href="{{ route('admin.first_buy.index') }}">
+                    <i class="icofont-sale-discount menu-icon2"></i>
+                    <span class="widget__categories--sub__menu--text">First Buy</span>
+                </a>
+            </li>
         </ul>
     </li>
     <li class="widget__categories--menu__list drop_menu">

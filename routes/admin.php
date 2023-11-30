@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Video_AdminController;
 use App\Http\Controllers\Admin\Customer_AdminController;
 use App\Http\Controllers\Admin\Chat_AdminController;
 use App\Http\Controllers\Admin\Coupon\AdminCouponController;
+use App\Http\Controllers\Admin\Coupon\MasterFirstBuyController;
 use App\Http\Controllers\Admin\Mplant\AdminMplantController;
 use App\Http\Controllers\Admin\Mplant\Category\AdminMplantCategoryController;
 use App\Http\Controllers\Admin\Mplant\SubCategory\AdminMplantSubCategoryController;
@@ -25,7 +26,6 @@ use App\Http\Controllers\Admin\Shipping\AdminShippingController;
 use App\Http\Controllers\Admin\Slider\AdminSliderController;
 use App\Http\Controllers\Admin\SubCategory\AdminSubCategoryController;
 use App\Http\Controllers\Admin\Webinar_AdminController;
-
 
 Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
 
@@ -180,5 +180,14 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
         Route::post('/coupon/status', 'status')->name('admin.coupon.status');
         Route::get('/coupon/generate', 'generate')->name('admin.coupon.generate');
         Route::post('/coupon/delete', 'delete')->name('admin.coupon.delete');
+    });
+    Route::controller(MasterFirstBuyController::class)->group(function () {
+        Route::get('/first-buy', 'index')->name('admin.first_buy.index');
+        Route::get('/first-buy/create', 'create')->name('admin.first_buy.create');
+        Route::post('/first-buy/save', 'save')->name('admin.first_buy.save');
+        Route::get('/first-buy/edit/{id}', 'edit')->name('admin.first_buy.edit');;
+        Route::post('/first-buy/update', 'update')->name('admin.first_buy.update');
+        Route::post('/first-buy/status', 'status')->name('admin.first_buy.status');
+        Route::post('/first-buy/delete', 'delete')->name('admin.first_buy.delete');
     });
 });
