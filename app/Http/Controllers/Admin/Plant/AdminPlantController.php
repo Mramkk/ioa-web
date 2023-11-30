@@ -34,7 +34,7 @@ class AdminPlantController extends Controller
         if (!empty($request->q)) {
             $search = $request->q;
             $data_list = Plant::where('title', 'LIKE', '%' . $search . '%')
-                ->orWhere('category', 'LIKE', '%' . $search . '%');
+                ->orWhere('sub_category', 'LIKE', '%' . $search . '%');
         } else {
             $data_list = Plant::orderBy('id', 'DESC');
         }
