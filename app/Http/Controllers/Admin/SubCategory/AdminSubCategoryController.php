@@ -17,9 +17,16 @@ class AdminSubCategoryController extends Controller
         $data = SubCategory::where('category', $req->category)->get();
         return ApiRes::data($data);
     }
-    public function index()
+    public function index(Request $request)
     {
-        $data = SubCategory::latest()->with('img')->get();
+        $data = '';
+        if(!empty($request->q)){
+            $search = $request->q;
+            $data = SubCategory::where('name','LIKE','%'.$search.'%');
+        }else{
+            $data = SubCategory::latest();
+        }
+        $data = $data->with('img')->paginate(10);
         return view('admin.sub-category.index', compact('data'));
     }
     public function create()
@@ -32,9 +39,6 @@ class AdminSubCategoryController extends Controller
         $req->validate([
             'sub_category' => 'required|string|max:225',
             'category' => 'required|string|max:225',
-
-
-
         ]);
         $status = null;
         $cat = new SubCategory();
