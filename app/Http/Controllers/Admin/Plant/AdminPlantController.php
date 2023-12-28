@@ -60,7 +60,7 @@ class AdminPlantController extends Controller
             'category' =>  'required|string|max:225',
             'sub_category' =>  'required|string|max:225',
             'rating' => 'digits_between:1,5',
-            'image1' => 'required|image|mimes:jpeg,jpg,png',
+            'image1' => 'required|image|mimes:jpeg,jpg,png,webp',
 
         ]);
         if ($req->category == "Fertilizer") {
@@ -91,11 +91,11 @@ class AdminPlantController extends Controller
         $path = 'public/img/plants/';
         if ($req->hasFile('image1')) {
             $req->validate([
-                'image1' => 'required|image|mimes:jpeg,jpg,png',
+                'image1' => 'required|image|mimes:jpeg,jpg,png,webp',
             ]);
             $picName =  uniqid() . ".webp";
 
-            Image::make($req->image1->getRealPath())->resize('480', '360')->save($path . $picName);
+            Image::make($req->image1->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $pid;
             $img->slno = '1';
@@ -104,7 +104,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image1->getRealPath())->resize('640', '480')->save($path . $picName);
+            Image::make($req->image1->getRealPath())->resize('1024', '1024')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $pid;
             $img->slno = '1';
@@ -114,10 +114,10 @@ class AdminPlantController extends Controller
         }
         if ($req->hasFile('image2')) {
             $req->validate([
-                'image2' => 'required|image|mimes:jpeg,jpg,png',
+                'image2' => 'required|image|mimes:jpeg,jpg,png,webp',
             ]);
             $picName =  uniqid() . ".webp";
-            Image::make($req->image2->getRealPath())->resize('480', '360')->save($path . $picName);
+            Image::make($req->image2->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $pid;
             $img->slno = '2';
@@ -126,7 +126,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
+            Image::make($req->image2->getRealPath())->resize('1024', '1024')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $pid;
             $img->slno = '2';
@@ -136,10 +136,10 @@ class AdminPlantController extends Controller
         }
         if ($req->hasFile('image3')) {
             $req->validate([
-                'image3' => 'required|image|mimes:jpeg,jpg,png',
+                'image3' => 'required|image|mimes:jpeg,jpg,png,webp',
             ]);
             $picName =  uniqid() . ".webp";
-            Image::make($req->image3->getRealPath())->resize('480', '360')->save($path . $picName);
+            Image::make($req->image3->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $pid;
             $img->slno = '3';
@@ -148,7 +148,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image2->getRealPath())->resize('640', '480')->save($path . $picName);
+            Image::make($req->image2->getRealPath())->resize('1024', '1024')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $pid;
             $img->slno = '3';
@@ -256,7 +256,7 @@ class AdminPlantController extends Controller
         $path = 'public/img/plants/';
         if ($req->hasFile('image1')) {
             $req->validate([
-                'image1' => 'required|image|mimes:jpeg,jpg,png',
+                'image1' => 'required|image|mimes:jpeg,jpg,png,webp',
             ]);
             $picName =  uniqid() . ".webp";
             $img = PlantImg::where('pid', $plant->pid)->where('slno', '1')->where('type', 'md')->first();
@@ -269,7 +269,7 @@ class AdminPlantController extends Controller
                 unlink($img->image);
                 $status =  $img->delete();
             }
-            Image::make($req->image1->getRealPath())->resize('480', '480')->save($path . $picName);
+            Image::make($req->image1->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '1';
@@ -278,7 +278,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image1->getRealPath())->resize('740', '740')->save($path . $picName);
+            Image::make($req->image1->getRealPath())->resize('1024', '1024')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '1';
@@ -288,7 +288,7 @@ class AdminPlantController extends Controller
         }
         if ($req->hasFile('image2')) {
             $req->validate([
-                'image2' => 'required|image|mimes:jpeg,jpg,png',
+                'image2' => 'required|image|mimes:jpeg,jpg,png,webp',
             ]);
             $img = PlantImg::where('pid', $plant->pid)->where('slno', '2')->where('type', 'md')->first();
             if ($img != null) {
@@ -301,7 +301,7 @@ class AdminPlantController extends Controller
                 $status =  $img->delete();
             }
             $picName =  uniqid() . ".webp";
-            Image::make($req->image2->getRealPath())->resize('480', '480')->save($path . $picName);
+            Image::make($req->image2->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '2';
@@ -310,7 +310,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image2->getRealPath())->resize('740', '740')->save($path . $picName);
+            Image::make($req->image2->getRealPath())->resize('1024', '1024')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '2';
@@ -320,7 +320,7 @@ class AdminPlantController extends Controller
         }
         if ($req->hasFile('image3')) {
             $req->validate([
-                'image3' => 'required|image|mimes:jpeg,jpg,png',
+                'image3' => 'required|image|mimes:jpeg,jpg,png,webp',
             ]);
             $img = PlantImg::where('pid', $plant->pid)->where('slno', '3')->where('type', 'md')->first();
             if ($img != null) {
@@ -333,7 +333,7 @@ class AdminPlantController extends Controller
                 $status =  $img->delete();
             }
             $picName =  uniqid() . ".webp";
-            Image::make($req->image3->getRealPath())->resize('480', '480')->save($path . $picName);
+            Image::make($req->image3->getRealPath())->resize('740', '740')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '3';
@@ -342,7 +342,7 @@ class AdminPlantController extends Controller
             $status =  $img->save();
 
             $picName =  uniqid() . ".webp";
-            Image::make($req->image3->getRealPath())->resize('740', '740')->save($path . $picName);
+            Image::make($req->image3->getRealPath())->resize('1024', '1024')->save($path . $picName);
             $img = new PlantImg();
             $img->pid = $plant->pid;
             $img->slno = '3';

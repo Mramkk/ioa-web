@@ -65,7 +65,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(ApiProductController::class)->group(function () {
         Route::get('/mproduct', 'data');
         Route::get('/mproduct/id', 'byId');
+        Route::get('/mproduct/plant', 'plantData');
         Route::get('/mproduct/plant/subcategory', 'plantSubcategory');
+
         // Route::get('/mproduct/product', 'product');
         // Route::get('/mproduct/category', 'category');
         // Route::get('/mproduct/subcategory', 'subCategoryWizeProduct');

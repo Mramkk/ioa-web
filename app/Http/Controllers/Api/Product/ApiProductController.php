@@ -42,4 +42,21 @@ class ApiProductController extends Controller
             return ApiRes::data($data);
         }
     }
+    public function plantData(Request $req)
+    {
+        if ($req->title != null) {
+            $data = Plant::where('category', 'Plant')->where('title', 'LIKE', '%' . $req->title . '%')->with('imglg')->with('imglg')->with('wishlist', function ($wishlist) {
+                return $wishlist->where('uid', auth()->user()->id)->get();
+            })->with('recommended', function ($recommended) {
+                return $recommended->with('fertilizer')->with('imglg');
+            })->get();
+            return ApiRes::data($data);
+        }
+        $data = Plant::where('category', 'Plant')->with('imglg')->with('wishlist', function ($wishlist) {
+            return $wishlist->where('uid', auth()->user()->id)->get();
+        })->with('recommended', function ($recommended) {
+            return $recommended->with('fertilizer')->with('imglg');
+        })->get();
+        return ApiRes::data($data);
+    }
 }
